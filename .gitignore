@@ -1,0 +1,7 @@
+android/.idea/
+android/.gradle/
+android/.project
+android/.settings/
+Android/.classpath
+android/local.properties
+yarn.lock

@@ -1,0 +1,29 @@
+{
+  "name": "react-native-pushiomanager",
+  "version": "6.47.1",
+  "description": "React Native Module for Responsys Mobile SDK",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/github_account/react-native-pushiomanager.git",
+    "baseUrl": "https://github.com/github_account/react-native-pushiomanager"
+  },
+  "keywords": [
+    "react-native"
+  ],
+  "license": "UPL-1.0",
+  "author": "Oracle Corp.",
+  "contributors": [
+    "Neerhaj N Joshi <neerhaj.joshi@oracle.com>",
+    "Sahil Wasan <sahil.wasan@oracle.com>",
+    "Tulika Baranwal <tulika.baranwal@oracle.com>"
+  ],
+  "licenseFilename": "LICENSE",
+  "readmeFilename": "README.md",
+  "dependencies": {
+    "invariant": "^2.2.4"
+  }
+}

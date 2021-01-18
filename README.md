@@ -79,8 +79,6 @@ yarn add https://github.com/oracle/pushiomanager-react-native.git
     - Run `pod install`
 
 
-> TODO: Update the steps for NPM
-
 ## Integration
 
 ### For Android

@@ -1,6 +1,6 @@
 {
   "name": "react-native-pushiomanager",
-  "version": "6.47",
+  "version": "6.47.0",
   "description": "React Native Module for Responsys Mobile SDK",
   "main": "index.js",
   "scripts": {

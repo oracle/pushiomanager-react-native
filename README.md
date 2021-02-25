@@ -5,14 +5,14 @@ This module makes it easy to integrate your React Native based mobile app with t
 ## Table of Contents
 - [Requirements](#requirements)
   * [For Android](#for-android)
-  * [For iOS](#for-iOS)
+  * [For iOS](#for-ios)
 - [Setup](#setup)
   * [For Android](#for-android-1)
-  * [For iOS](#for-iOS-1)
+  * [For iOS](#for-ios-1)
 - [Installation](#installation)
 - [Integration](#integration)
   * [For Android](#for-android-2)
-  * [For iOS](#for-iOS-2)
+  * [For iOS](#for-ios-2)
 - [Usage](#usage)
   * [Configure And Register](#configure-and-register)
   * [User Identification](#user-identification)
@@ -43,8 +43,8 @@ Before installing the plugin, you must setup your app to receive push notificati
 ### For Android
 - [Get FCM Credentials](https://docs.oracle.com/en/cloud/saas/marketing/responsys-develop-mobile/android/gcm-credentials) 
 - Log in to the [Responsys Mobile App Developer Console](https://docs.oracle.com/en/cloud/saas/marketing/responsys-develop-mobile/dev-console/login/) and enter your FCM credentials (Project ID and Server API Key) for your Android app.
-- Download the `pushio_config.json` file generated from your credentials and include it in your project's `android/src/main/assets` folder.
-- Copy `PushIOManager-6.45.aar`  and place it in the project's `android/src/main/libs` folder. 
+- Get the `pushio_config.json` file generated from your credentials and place it in your project's `android/app/src/main/assets` folder. You might have to create the directory if it is not already present.
+- Download the SDK native binary from [here](https://www.oracle.com/downloads/applications/cx/responsys-mobile-sdk.html) and place it in the project's `android/app/src/main/libs` folder. 
 
 
 ### For iOS
@@ -83,7 +83,13 @@ yarn add https://github.com/oracle/pushiomanager-react-native.git
 
 ### For Android
 
-- Open the `AndroidManifest.xml` file located at `android/src/main` and add the following,
+- Open the `build.gradle` file located in `android/app/` and add the following dependencies,
+	```
+	implementation 'com.google.firebase:firebase-messaging:17.3.0'
+	implementation fileTree(dir: "libs", include: ["PushIOManager-6.47.aar"]) // filename should match the .aar file you placed in libs directory earlier. 
+	```
+
+- Open the `AndroidManifest.xml` file located in `android/app/src/main` and add the following,
 	* Permissions above the `<application>` tag,
 
 		```xml
@@ -101,17 +107,6 @@ yarn add https://github.com/oracle/pushiomanager-react-native.git
 			<action android:name="${applicationId}.NOTIFICATIONPRESSED" />
 	   		<category android:name="android.intent.category.DEFAULT" />
 		</intent-filter>
-		```
-
-	* (Optional) Intent-filter for [Android App Links](https://developer.android.com/training/app-links) setup. Add it inside the `<activity>` tag of `MainActivity`,
-
-		```xml
-		<intent-filter android:autoVerify="true">
-			<action android:name="android.intent.action.VIEW" />
-			<category android:name="android.intent.category.DEFAULT" />
-			<category android:name="android.intent.category.BROWSABLE" />
-			<data android:host="@string/app_links_url_host" android:pathPrefix="/pub/acc" android:scheme="https" />
-       </intent-filter>
 		```
 		
 	* Add the following code inside `<application>` tag,
@@ -133,16 +128,26 @@ yarn add https://github.com/oracle/pushiomanager-react-native.git
             </intent-filter>
         </activity>
 		```
+	* (Optional) Intent-filter for [Android App Links](https://developer.android.com/training/app-links) setup. Add it inside the `<activity>` tag of `MainActivity`,
+
+		```xml
+		<intent-filter android:autoVerify="true">
+			<action android:name="android.intent.action.VIEW" />
+			<category android:name="android.intent.category.DEFAULT" />
+			<category android:name="android.intent.category.BROWSABLE" />
+			<data android:host="@string/app_links_url_host" android:pathPrefix="/pub/acc" android:scheme="https" />
+       </intent-filter>
+		```
 		
 
-- Open the `strings.xml` file located at `android/src/main/res/values` and add the following properties,
+- Open the `strings.xml` file located at `android/app/src/main/res/values` and add the following properties,
 
 	* Custom URI scheme for displaying In-App Messages and Rich Push content,
 
 		```xml
 		<string name="uri_identifier">pio-YOUR_API_KEY</string>
 		```
-		You can find the API key in the `pushio_config.json` that was placed in `android/app/src/main/assets` earlier during setup.
+	You can find the API key in the `pushio_config.json` that was placed in `android/app/src/main/assets` earlier during setup.
 		
 	* (Optional) If you added the `<intent-filter>` for Android App Links in the steps above, then you will need to declare the domain name,
 	
@@ -181,7 +186,7 @@ import PushIOManager from 'react-native-pushiomanager';
 - Configure the SDK,
 
 	```javascript
-	PushIOManager.configure("pushio_config.json", (error, response) => {
+	PushIOManager.configure("your-pushio_config.json", (error, response) => {
 	      
 	});
 	```

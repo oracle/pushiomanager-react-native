@@ -71,7 +71,7 @@ repositories {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['PushIOManager-6.47.1.aar'])
+    implementation fileTree(dir: 'libs', include: ['PushIOManager-6.47.aar'])
     //noinspection GradleDynamicVersion
     compileOnly 'com.facebook.react:react-native:+'  // From node_modules
     compileOnly 'com.google.firebase:firebase-messaging:17.3.0'

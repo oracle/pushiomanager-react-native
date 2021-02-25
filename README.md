@@ -83,6 +83,11 @@ yarn add https://github.com/oracle/pushiomanager-react-native.git
 
 ### For Android
 
+- Open the `build.gradle` file located in `android/app/` and add the following dependency,
+	```
+	implementation 'com.google.firebase:firebase-messaging:17.3.0' 
+	```
+
 - Open the `AndroidManifest.xml` file located in `android/app/src/main` and add the following,
 	* Permissions above the `<application>` tag,
 

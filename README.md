@@ -191,27 +191,7 @@ import PushIOManager from 'react-native-pushiomanager';
 	```
 	
 - Once the SDK is configured, register the app with Responsys,
-
-	- For Android, 
-
-		```javascript
-		PushIOManager.registerApp(true, (error, response) => {
-		
-		});
-		```
-		
-	- For iOS,
-
-		```javascript
-		PushIOManager.registerForAllRemoteNotificationTypes((error, response) => {
-		
-			PushIOManager.registerApp(true, (error, response) => {
-                    
-          });  
-		});
-		```
-        
-        - Use Platform check to detect the platform.        
+	- Use Platform check to detect the platform.        
 
             ```javascript
             import { Platform } from 'react-native';

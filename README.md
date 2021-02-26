@@ -111,7 +111,7 @@ yarn add https://github.com/oracle/pushiomanager-react-native.git
 	* Add the following code inside `<application>` tag,
 
 		```xml
-		 <receiver android:enabled="true" android:exported="false" android:name="com.pushio.manager.PushIOUriReceiver" tools:node="replace">
+		 <receiver android:enabled="true" android:exported="false" android:name="com.pushio.manager.PushIOUriReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -119,7 +119,7 @@ yarn add https://github.com/oracle/pushiomanager-react-native.git
             </intent-filter>
         </receiver>
         <activity android:name="com.pushio.manager.iam.ui.PushIOMessageViewActivity" android:permission="${applicationId}.permission.SHOW_IAM" android:theme="@android:style/Theme.Translucent.NoTitleBar">
-            <intent-filter tools:ignore="AppLinkUrlError">
+            <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <category android:name="android.intent.category.DEFAULT" />

@@ -45,6 +45,13 @@ RCT_EXPORT_METHOD(registerForAllRemoteNotificationTypesWithCategories:(NSArray *
   }];
 }
 
+RCT_EXPORT_METHOD(registerForNotificationAuthorizations:(int)authOptions categories:(NSArray *)categories completionHandler:(RCTResponseSenderBlock)callback) {
+    [[PushIOManager sharedInstance] registerForNotificationAuthorizations:authOptions categories:[categories notificationCategoryArray] completionHandler:^(NSError *error, NSString *response) {
+        callback(@[error.description?: [NSNull null], response ?: @"success"]);
+
+    }];
+}
+
 RCT_EXPORT_METHOD(registerApp:(RCTResponseSenderBlock)callback) {
     [[PushIOManager sharedInstance] registerApp:nil completionHandler:^(NSError *error, NSString *response) {
         callback(@[error.description?: [NSNull null], response ?: @"success"]);
@@ -363,7 +370,14 @@ RCT_EXPORT_METHOD(setOpenURLListener:(BOOL)isSet) {
     } else {
         [[PushIOManager sharedInstance] setDeeplinkDelegate:nil];
     }
+}
 
+RCT_EXPORT_METHOD(trackConversionEvent:(NSDictionary *)event
+                  completionHandler:(RCTResponseSenderBlock)callback) {
+  [[PushIOManager sharedInstance] trackConversionEvent:[event conversionEvent]
+                                     completionHandler:^(NSError *error, NSString *response) {
+      callback(@[error.description?: [NSNull null], response ?: @"success"]);
+  }];
 }
 
 - (BOOL)handleOpenURL:(NSURL *)url {

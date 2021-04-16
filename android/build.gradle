@@ -71,7 +71,7 @@ repositories {
 }
 
 dependencies {
-    implementation rootProject.files('app/src/main/libs/PushIOManager-6.47.aar')
+    implementation rootProject.files('app/src/main/libs/PushIOManager-6.48.aar')
     //noinspection GradleDynamicVersion
     compileOnly 'com.facebook.react:react-native:+'  // From node_modules
     compileOnly 'com.google.firebase:firebase-messaging:17.3.0'

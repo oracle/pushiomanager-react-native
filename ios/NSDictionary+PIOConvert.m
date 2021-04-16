@@ -48,6 +48,19 @@
     return beaconRegion;
 }
 
+- (PIOConversionEvent *)conversionEvent {
+    NSString *orderId = [RCTConvert NSString:self[@"orderId"]];
+    double orderTotal = [RCTConvert double:self[@"orderTotal"]];
+    NSInteger orderQuantity = [RCTConvert NSInteger:self[@"orderQuantity"]];
+    int conversionType  = [RCTConvert int:self[@"conversionType"]];
+    NSDictionary *customProperties = [RCTConvert NSDictionary:self[@"customProperties"]];
+    if (customProperties == nil) {
+        customProperties = [NSDictionary dictionary];
+    }
+    PIOConversionEvent *event = [[PIOConversionEvent alloc] initWithOrderId:orderId orderTotal:orderTotal orderQuantity:orderQuantity conversionType:conversionType customProperties:customProperties];
+    return event;
+}
+
 - (PIONotificationCategory *)notificationCategory {
     NSArray *oracleButtons = self[@"orcl_btns"];
     NSMutableArray *actions = [NSMutableArray new];

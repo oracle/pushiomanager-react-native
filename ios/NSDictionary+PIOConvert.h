@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (PIOGeoRegion *)geoRegion;
 - (PIOBeaconRegion *)beaconRegion;
 - (PIONotificationCategory *)notificationCategory;
+- (PIOConversionEvent *)conversionEvent;
 + (NSDictionary *)dictionaryFromPreference:(PIOPreference *)preference;
 - (NSString *)JSON;
 @end

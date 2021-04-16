@@ -18,6 +18,7 @@ import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.bridge.WritableNativeArray;
 import com.facebook.react.bridge.WritableNativeMap;
 import com.google.firebase.messaging.RemoteMessage;
+import com.pushio.manager.PIOConversionEvent;
 import com.pushio.manager.PIOBeaconRegion;
 import com.pushio.manager.PIOGeoRegion;
 import com.pushio.manager.PIOInteractiveNotificationButton;
@@ -236,6 +237,33 @@ class RCTPIOCommonUtils {
         }
 
         return writableMessages;
+    }
+
+    static PIOConversionEvent conversionEventFromReadableMap(ReadableMap eventReadableMap){
+        if(eventReadableMap == null){
+            return null;
+        }
+
+        PIOConversionEvent conversionEvent = new PIOConversionEvent();
+        conversionEvent.setConversionType(eventReadableMap.getInt("conversionType"));
+        conversionEvent.setOrderId(eventReadableMap.getString("orderId"));
+
+        try{
+            conversionEvent.setOrderAmount(Double.parseDouble(eventReadableMap.getString("orderTotal")));
+            conversionEvent.setOrderQuantity(Integer.parseInt(eventReadableMap.getString("orderQuantity")));
+        }catch(NumberFormatException e){
+            PIOLogger.v("RN cEFRM "+e);
+        }
+
+        if(eventReadableMap.hasKey("customProperties")){
+            ReadableMap customPropertiesReadableMap = eventReadableMap.getMap("customProperties");
+
+            if(customPropertiesReadableMap != null){
+                conversionEvent.setProperties(convertMap(customPropertiesReadableMap.toHashMap()));
+            }
+        }
+
+        return conversionEvent;
     }
 
     private static String getDateAsString(Date date) {

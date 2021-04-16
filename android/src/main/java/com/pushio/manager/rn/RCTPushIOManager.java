@@ -18,6 +18,8 @@ import com.facebook.react.bridge.WritableNativeMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.pushio.manager.PIOBadgeSyncListener;
 import com.pushio.manager.PIOConfigurationListener;
+import com.pushio.manager.PIOConversionEvent;
+import com.pushio.manager.PIOConversionListener;
 import com.pushio.manager.PIOInteractiveNotificationCategory;
 import com.pushio.manager.PIOLogger;
 import com.pushio.manager.PIOMCMessage;
@@ -856,6 +858,28 @@ public class RCTPushIOManager extends ReactContextBaseJavaModule {
     @ReactMethod
     public void showRichPushMessage(){
         mPushIOManager.showRichPushMessage();
+    }
+
+    @ReactMethod
+    public void trackConversionEvent(ReadableMap eventReadableMap, final Callback callback){
+        PIOConversionEvent conversionEvent = RCTPIOCommonUtils.conversionEventFromReadableMap(eventReadableMap);
+
+        if(conversionEvent == null){
+            callback.invoke("Invalid Event", null);
+            return;
+        }
+
+        mPushIOManager.trackConversionEvent(conversionEvent, callback == null ? null : new PIOConversionListener() {
+            @Override
+            public void onSuccess() {
+                callback.invoke(null, "success");
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+                callback.invoke(e.getMessage(), null);
+            }
+        });
     }
 
     private void emitEvent(String eventName, WritableMap map){

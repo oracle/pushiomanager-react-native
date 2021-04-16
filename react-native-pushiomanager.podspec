@@ -10,7 +10,7 @@ Pod::Spec.new do |s|
   s.license      = "UPL-1.0"
   # s.license    = { :type => "UPL-1.0", :file => "FILE_LICENSE" }
   s.authors      = { "Responsys" => "support@oracle.com" }
-  s.platforms    = { :ios => "9.0" }
+  s.platforms    = { :ios => "10.0" }
   s.source       = { :git => "https://github.com/oracle/pushiomanager-react-native.git", :tag => "#{s.version}" }
 
   s.source_files = "ios/**/*.{h,m,swift}"

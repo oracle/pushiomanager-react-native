@@ -511,13 +511,12 @@ export default class PushIOManager {
     static setOpenURLListener(isSet, callback) {
         if (Platform.OS === 'ios') {
             RCTPushIOManager.setOpenURLListener(isSet);
-            if (isSet) {
-                return RCTPushIOEventEmitter.addListener('PIOHandleOpenURL', callback);
-            } else {
-                return RCTPushIOEventEmitter.removeListener('PIOHandleOpenURL', callback);
-            }
+        }
+
+        if (isSet) {
+            return RCTPushIOEventEmitter.addListener('PIOHandleOpenURL', callback);
         } else {
-            console.log("API not supported");
+            return RCTPushIOEventEmitter.removeListener('PIOHandleOpenURL', callback);
         }
     }
 
@@ -533,4 +532,7 @@ export default class PushIOManager {
         RCTPushIOManager.isRichPushDelaySet(callback);
     }
 
+    static trackConversionEvent(event, callback) {
+        RCTPushIOManager.trackConversionEvent(event, callback);
+    }
 }

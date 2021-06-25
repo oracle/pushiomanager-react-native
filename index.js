@@ -434,7 +434,15 @@ export default class PushIOManager {
 
     static registerForAllRemoteNotificationTypes(callback) {
         if (Platform.OS === 'ios') {
-            RCTPushIOManager.registerForAllRemoteNotificationTypes(callback);
+            RCTPushIOEventEmitter.addListener('registerForAllRemoteNotificationTypes', result => {
+                if (result.error) {
+                    callback(result.error, result.response)
+                } else {
+                    callback(null, result.response)
+                }
+            });
+
+            RCTPushIOManager.registerForAllRemoteNotificationTypes();
         } else {
             console.log("API not supported");
         }
@@ -533,6 +541,9 @@ export default class PushIOManager {
     }
 
     static trackConversionEvent(event, callback) {
+        if (Platform.OS === 'ios') {
+            event["conversionType"] = ((event["conversionType"] < 6) ? (event["conversionType"] - 1) : event["conversionType"]);
+        }
         RCTPushIOManager.trackConversionEvent(event, callback);
     }
 }

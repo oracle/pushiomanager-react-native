@@ -33,10 +33,8 @@ RCT_EXPORT_METHOD(configureWithAPIKey:(NSString *)apiKey accountToken:(NSString 
 }
 
 
-RCT_EXPORT_METHOD(registerForAllRemoteNotificationTypes:(RCTResponseSenderBlock)callback) {
-  [[PushIOManager sharedInstance] registerForAllRemoteNotificationTypes:^(NSError *error, NSString *response) {
-    callback(@[error.description?: [NSNull null], response ?: @"success"]);
-  }];
+RCT_EXPORT_METHOD(registerForAllRemoteNotificationTypes) {
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"registerForAllRemoteNotificationTypes" object:nil];
 }
 
 RCT_EXPORT_METHOD(registerForAllRemoteNotificationTypesWithCategories:(NSArray *)categories completionHandler:(RCTResponseSenderBlock)callback) {

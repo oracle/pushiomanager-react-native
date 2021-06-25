@@ -18,12 +18,32 @@ RCT_EXPORT_MODULE();
     hasListeners = YES;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resolvedURL:) name:PIORsysWebURLResolvedNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleOpenURL:) name:@"PIOHandleOpenURL" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(registerForAllRemoteNotifications) name:@"registerForAllRemoteNotificationTypes" object:nil];
+
 }
 
 
+- (void)registerForAllRemoteNotifications {
+    
+    [[PushIOManager sharedInstance] registerForAllRemoteNotificationTypes:^(NSError *error, NSString *response) {
+        if ([self bridge] == nil) {
+            return;
+        }
+        if (self->hasListeners ) {
+              NSMutableDictionary *result = [NSMutableDictionary dictionary];
+              result[@"error"] = error.description?: [NSNull null] ;
+              result[@"response"] = response?: @"success";
+            [self sendEventWithName:@"registerForAllRemoteNotificationTypes" body:result];
 
-// Will be called when this module's last listener is removed, or on dealloc.
+        }
+    }];
+}
+
 -(void)stopObserving {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"registerForAllRemoteNotificationTypes" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:PIORsysWebURLResolvedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"PIOHandleOpenURL" object:nil];
+
     hasListeners = NO;
 }
 
@@ -40,7 +60,7 @@ RCT_EXPORT_MODULE();
 }
 
 - (NSArray<NSString *> *)supportedEvents {
-  return @[PIORsysWebURLResolvedNotification, @"PIOHandleOpenURL"];
+  return @[PIORsysWebURLResolvedNotification, @"PIOHandleOpenURL", @"registerForAllRemoteNotificationTypes"];
 }
 
 

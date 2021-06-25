@@ -161,6 +161,50 @@ yarn add https://github.com/oracle/pushiomanager-react-native.git
 - Drag and Drop your `pushio_config.json` in Xcode project.
 - Select the root project and Under Capabilites add the "Push Notifications" and "Background Modes". 
 ![Capability Image](./img/ios_add_capability.png "Capabilty Image")
+
+- Implement the below delegate methods in `AppDelegate.m`. 
+
+```
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:
+    (NSData *)deviceToken
+{
+    [[PushIOManager sharedInstance]  didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+}
+
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
+{
+    [[PushIOManager sharedInstance]  didFailToRegisterForRemoteNotificationsWithError:error];
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
+{
+    [[PushIOManager sharedInstance] didReceiveRemoteNotification:userInfo];
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:
+(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
+{
+    [[PushIOManager sharedInstance] didReceiveRemoteNotification:userInfo
+fetchCompletionResult:UIBackgroundFetchResultNewData fetchCompletionHandler:completionHandler];
+}
+
+//iOS 10 or later
+-(void) userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:
+(UNNotificationResponse *)response withCompletionHandler:(void(^)(void))completionHandler
+{
+    [[PushIOManager sharedInstance] userNotificationCenter:center didReceiveNotificationResponse:response
+withCompletionHandler:completionHandler];
+}
+
+-(void) userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:
+(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler
+{
+    [[PushIOManager sharedInstance] userNotificationCenter:center willPresentNotification:notification
+withCompletionHandler:completionHandler];
+}				
+```
+
+
 - For In-App Messages and Rich Push Content follow the below steps :
   * To Enable Custom URI scheme for displaying In-App Messages and Rich Push content follow the [Step 1](https://docs.oracle.com/en/cloud/saas/marketing/responsys-develop-mobile/ios/in-app-msg/). You don't need to add the code.
   You can find the API key in the `pushio_config.json` that was placed in your Xcode project earlier during setup.
@@ -191,7 +235,7 @@ import PushIOManager from 'react-native-pushiomanager';
 	```
 	
 - Once the SDK is configured, register the app with Responsys,
-	- Use Platform check to detect the platform.        
+	- Combine above steps and use Platform check to detect the platform.        
 
             ```javascript
             import { Platform } from 'react-native';

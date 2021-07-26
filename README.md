@@ -67,13 +67,13 @@ yarn add https://github.com/oracle/pushiomanager-react-native.git
 
     - Open your React Native App Project `Podfile.` Add  the below line
     
-     `pod 'PushIOManager', :path => '<PATH_TO_node_modules/pushiomanager-react-native/PushIOManager/_Directory>'` after `use_native_modules!`. 
+     `pod 'PushIOManager', :path => '<PATH_TO_node_modules/react-native-pushiomanager/PushIOManager/_Directory>'` after `use_native_modules!`. 
      
      Eg:
     
     ```
     use_native_modules!
-    pod 'PushIOManager', :path => '../node_modules/pushiomanager-react-native/PushIOManager/'
+    pod 'PushIOManager', :path => '../node_modules/react-native-pushiomanager/PushIOManager/'
     
     ```
     - Run `pod install`

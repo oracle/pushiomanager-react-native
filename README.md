@@ -51,7 +51,7 @@ Before installing the plugin, you must setup your app to receive push notificati
 - [Generate Auth Key](https://docs.oracle.com/en/cloud/saas/marketing/responsys-develop-mobile/ios/auth-key/) 
 - Log in to the [Responsys Mobile App Developer Console](https://docs.oracle.com/en/cloud/saas/marketing/responsys-develop-mobile/dev-console/login/) and enter your Auth Key and other details for your iOS app.
 - Download the `pushio_config.json` file generated from your credentials.
-- After adding the plugin in your app, copy `PushIOManager.framework` and place it in the plugin `node_modules/pushiomanager-react-native/PushIOManager/` folder. 
+- After adding the plugin in your app, copy `PushIOManager.framework` and place it in the plugin `node_modules/react-native-pushiomanager/PushIOManager/` folder. 
 
 ## Installation
 

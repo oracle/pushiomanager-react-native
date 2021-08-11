@@ -59,7 +59,7 @@ The plugin can be installed with the React Native CLI,
 
 ```shell
 cd <your_react_native_app>
-yarn add https://github.com/oracle/pushiomanager-react-native.git
+yarn add @oracle/react-native-pushiomanager
 ```
 
 ### For iOS

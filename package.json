@@ -5,7 +5,7 @@
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/oracle/pushiomanager-react-native",
+    "url": "https://github.com/oracle/pushiomanager-react-native"
   },
   "keywords": [
     "responsys",

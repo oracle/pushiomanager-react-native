@@ -220,7 +220,7 @@ withCompletionHandler:completionHandler];
 The module can be accessed in JS code as follows,
 
 ```javascript
-import PushIOManager from 'react-native-pushiomanager';
+import PushIOManager from '@oracle/react-native-pushiomanager';
 ```
 
 

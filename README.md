@@ -237,22 +237,22 @@ import PushIOManager from '@oracle/react-native-pushiomanager';
 - Once the SDK is configured, register the app with Responsys,
 	- Combine above steps and use Platform check to detect the platform.        
 
-            ```javascript
-            import { Platform } from 'react-native';
-
-            if (Platform.OS === 'android') {
-                PushIOManager.registerApp(true, (error, response) => {
+	```javascript
+	import { Platform } from 'react-native';
+	
+	if (Platform.OS === 'android') {
+		PushIOManager.registerApp(true, (error, response) => {
                 
-                });
-            } else {
-                PushIOManager.registerForAllRemoteNotificationTypes((error, response) => {
+        	});
+	} else {
+		PushIOManager.registerForAllRemoteNotificationTypes((error, response) => {
                 
-                    PushIOManager.registerApp(true, (error, response) => {
-                            
-                  });  
-                });
-            }
-            ```
+        		PushIOManager.registerApp(true, (error, response) => {
+			
+			});  
+		});
+	}
+	```
 
 
 ### User Identification

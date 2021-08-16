@@ -378,6 +378,14 @@ RCT_EXPORT_METHOD(trackConversionEvent:(NSDictionary *)event
   }];
 }
 
+RCT_EXPORT_METHOD(setDelayRegistration:(BOOL)delayRegistration) {
+  [[PushIOManager sharedInstance] setDelayRegistration:delayRegistration];
+}
+
+RCT_EXPORT_METHOD(isDelayRegistration:(RCTResponseSenderBlock)callback) {
+    callback(@[[NSNull null], @([[PushIOManager sharedInstance] delayRegistration])]);
+}
+
 - (BOOL)handleOpenURL:(NSURL *)url {
     [[NSNotificationCenter defaultCenter] postNotificationName:@"PIOHandleOpenURL" object:nil userInfo:@{@"url": [url absoluteString]}];
     return true;

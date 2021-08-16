@@ -546,4 +546,20 @@ export default class PushIOManager {
         }
         RCTPushIOManager.trackConversionEvent(event, callback);
     }
+
+    static setDelayRegistration(delayRegistration) {
+        if (Platform.OS === 'android') {
+            console.log("API not supported");
+        } else {
+            RCTPushIOManager.setDelayRegistration(delayRegistration);
+        }
+    }
+
+    static isDelayRegistration(callback) {
+        if (Platform.OS === 'android') {
+            console.log("API not supported");
+        } else {
+            RCTPushIOManager.isDelayRegistration(callback);
+        }
+    }
 }

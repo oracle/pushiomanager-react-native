@@ -1,6 +1,6 @@
 {
   "name": "@oracle/react-native-pushiomanager",
-  "version": "6.48.2",
+  "version": "6.48.3",
   "description": "React Native Module for Responsys Mobile SDK",
   "main": "index.js",
   "repository": {

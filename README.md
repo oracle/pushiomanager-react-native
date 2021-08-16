@@ -252,7 +252,15 @@ import PushIOManager from '@oracle/react-native-pushiomanager';
 			});  
 		});
 	}
-	```
+            ```
+- Additional APIs (optional)
+
+    iOS Only:
+    - You can delay registration while app is launching or coming to foreground by implementing below API.
+   ```
+   // Implement before `registerForAllRemoteNotificationTypes` calls.
+   PushIOManager.setDelayRegistration(true); 
+   ```
 
 
 ### User Identification

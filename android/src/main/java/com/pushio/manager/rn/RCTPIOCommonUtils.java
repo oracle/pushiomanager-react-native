@@ -42,7 +42,6 @@ class RCTPIOCommonUtils {
     private static final String FB_KEY_DATA = "data";
     private static final String FB_KEY_MESSAGE_ID = "messageId";
     private static final String FB_KEY_MESSAGE_TYPE = "messageType";
-    private static final String FB_KEY_TO = "to";
     private static final String FB_KEY_TTL = "ttl";
     private static final String DATE_FORMAT_ISO8601 = "yyyy-MM-dd'T'HH:mm:ssZZZZZ";
 
@@ -55,7 +54,7 @@ class RCTPIOCommonUtils {
     }
 
     static RemoteMessage remoteMessageFromReadableMap(ReadableMap readableMap) {
-        RemoteMessage.Builder builder = new RemoteMessage.Builder(readableMap.getString(FB_KEY_TO));
+        RemoteMessage.Builder builder = new RemoteMessage.Builder("rsys_internal");
 
         if (readableMap.hasKey(FB_KEY_TTL)) {
             builder.setTtl(readableMap.getInt(FB_KEY_TTL));

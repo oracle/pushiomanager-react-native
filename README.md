@@ -95,7 +95,7 @@ artifacts.add("default", file('PushIOManager-X.XX.X.aar'))
 
 ```gradle
 include ':PushIOManager'
-project(':PushIOManager').projectDir = new File(rootProject.projectDir, 'app/PushIOManager')
+project(':PushIOManager').projectDir = new File(rootProject.projectDir, './PushIOManager')
 ```
 
 - Open the `build.gradle` file located in `android/app/` and add the following dependency,

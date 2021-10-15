@@ -83,6 +83,22 @@ yarn add @oracle/react-native-pushiomanager
 
 ### For Android
 
+- Place the SDK .aar in your `/android` folder inside of a new directory `/android/PushIOManager`
+
+- In that new directory create a file `build.gradle` with the following code (where X is the version of the SDK file you placed):
+
+```gradle
+configurations.maybeCreate("default")
+artifacts.add("default", file('PushIOManager-X.XX.X.aar'))
+```
+
+- Add the following to your project wide settings.gradle:
+
+```gradle
+include ':PushIOManager'
+project(':PushIOManager').projectDir = new File(rootProject.projectDir, 'app/PushIOManager')
+```
+
 - Open the `build.gradle` file located in `android/app/` and add the following dependency,
 	```
 	implementation 'com.google.firebase:firebase-messaging:17.3.0' 

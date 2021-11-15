@@ -211,10 +211,10 @@ withCompletionHandler:completionHandler];
 
 
 - For In-App Messages and Rich Push Content follow the below steps :
-  * To Enable Custom URI scheme for displaying In-App Messages and Rich Push content follow the [Step 1](https://docs.oracle.com/en/cloud/saas/marketing/responsys-develop-mobile/ios/in-app-msg.htm). You don't need to add the code.
+  * To Enable Custom URI scheme for displaying In-App Messages and Rich Push content follow the [Step 1](https://docs.oracle.com/en/cloud/saas/marketing/responsys-develop-mobile/ios/in-app-msg.htm).
   You can find the API key in the `pushio_config.json` that was placed in your Xcode project earlier during setup.
   
-  * Follow  [Step 2](https://docs.oracle.com/en/cloud/saas/marketing/responsys-develop-mobile/ios/in-app-msg.htm) to  add the required capabilites in your Xcode project for In-App messages.
+  * Follow  [Step 2](https://docs.oracle.com/en/cloud/saas/marketing/responsys-develop-mobile/ios/in-app-msg.htm) to add the required capabilites in your Xcode project for In-App messages.
 
 - For Media Attachments you can follow the following [guide](https://docs.oracle.com/en/cloud/saas/marketing/responsys-develop-mobile/ios/media-attachments/). Copy and paste the code provided in guide in respective files.	
 
@@ -310,10 +310,10 @@ IAM can also be displayed on-demand using custom triggers.
 
 These below steps are required for iOS In-App Messages.
 
-  * To Enable Custom URI scheme for displaying In-App Messages and Rich Push content follow the [Step 1](https://docs.oracle.com/en/cloud/saas/marketing/responsys-develop-mobile/ios/in-app-msg.htm). You don't need to add the code.
+  * To Enable Custom URI scheme for displaying In-App Messages and Rich Push content follow the [Step 1](https://docs.oracle.com/en/cloud/saas/marketing/responsys-develop-mobile/ios/in-app-msg.htm).
   You can find the API key in the `pushio_config.json` that was placed in your Xcode project earlier during setup.
   
-  * Follow  [Step 2](https://docs.oracle.com/en/cloud/saas/marketing/responsys-develop-mobile/ios/in-app-msg.htm) to  add the required capabilites in your Xcode project for In-App messages.
+  * Follow  [Step 2](https://docs.oracle.com/en/cloud/saas/marketing/responsys-develop-mobile/ios/in-app-msg.htm) to add the required capabilites in your Xcode project for In-App messages.
 
 
 ### Message Center

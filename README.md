@@ -44,7 +44,6 @@ Before installing the plugin, you must setup your app to receive push notificati
 - [Get FCM Credentials](https://docs.oracle.com/en/cloud/saas/marketing/responsys-develop-mobile/android/gcm-credentials) 
 - Log in to the [Responsys Mobile App Developer Console](https://docs.oracle.com/en/cloud/saas/marketing/responsys-develop-mobile/dev-console/login/) and enter your FCM credentials (Project ID and Server API Key) for your Android app.
 - Get the `pushio_config.json` file generated from your credentials and place it in your project's `android/app/src/main/assets` folder. You might have to create the directory if it is not already present.
-- Download the SDK native binary from [here](https://www.oracle.com/downloads/applications/cx/responsys-mobile-sdk.html) and place it in the project's `android/app/src/main/libs` folder. 
 
 
 ### For iOS
@@ -82,6 +81,22 @@ yarn add @oracle/react-native-pushiomanager
 ## Integration
 
 ### For Android
+
+- Download the SDK native binary from [here](https://www.oracle.com/downloads/applications/cx/responsys-mobile-sdk.html) and place the SDK .aar in your `/android` folder inside of a new directory `/android/PushIOManager`
+
+- In that new directory create a file `build.gradle` with the following code (where X is the version of the SDK file you placed):
+
+```gradle
+configurations.maybeCreate("default")
+artifacts.add("default", file('PushIOManager-X.XX.X.aar'))
+```
+
+- Add the following to your project wide settings.gradle:
+
+```gradle
+include ':PushIOManager'
+project(':PushIOManager').projectDir = new File(rootProject.projectDir, './PushIOManager')
+```
 
 - Open the `build.gradle` file located in `android/app/` and add the following dependency,
 	```

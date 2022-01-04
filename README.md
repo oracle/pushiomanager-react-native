@@ -388,6 +388,27 @@ Preferences are used to record user-choices for push notifications. The preferen
 Do not use this as a persistent (key/value) store since this data is purgeable.
 
 
+### Changing Notification Icon and Color (Android Only)
+
+Responsys SDK uses the app icon as the icon for notifications. You can change this by using the following two APIs,
+
+```javascript
+PushIOManager.setNotificationLargeIcon("ic_notification_large");
+PushIOManager.setNotificationSmallIcon("ic_notification_small");
+```
+
+- Icon name should be provided without the file extension.
+- Icon images should be present in your app's `drawable` or `mipmap` directory, i.e. `android/app/src/main/res/drawable` or `android/app/src/main/res/mipmap`.
+
+
+It is also possible to change the notification small icon color by using the following API,
+
+```javascript
+PushIOManager.setNotificationSmallIconColor("#d1350f");
+```
+
+
+
 ## Upgrades
 
 ### 6.50.1 to 6.51

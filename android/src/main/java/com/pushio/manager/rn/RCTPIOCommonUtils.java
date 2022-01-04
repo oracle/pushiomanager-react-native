@@ -1,5 +1,5 @@
 /*
-* Copyright © 2020, Oracle and/or its affiliates. All rights reserved.
+* Copyright © 2022, Oracle and/or its affiliates. All rights reserved.
 *
 * Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl.
 */
@@ -106,7 +106,7 @@ class RCTPIOCommonUtils {
         region.setDeviceBearing(readableMap.getDouble("deviceBearing"));
         region.setDeviceSpeed(readableMap.getDouble("deviceSpeed"));
         region.setDwellTime(readableMap.getInt("dwellTime"));
-            
+
         if (readableMap.hasKey("extra")) {
             ReadableMap extraData = readableMap.getMap("extra");
             if (extraData != null) {
@@ -238,8 +238,8 @@ class RCTPIOCommonUtils {
         return writableMessages;
     }
 
-    static PIOConversionEvent conversionEventFromReadableMap(ReadableMap eventReadableMap){
-        if(eventReadableMap == null){
+    static PIOConversionEvent conversionEventFromReadableMap(ReadableMap eventReadableMap) {
+        if (eventReadableMap == null) {
             return null;
         }
 
@@ -247,17 +247,17 @@ class RCTPIOCommonUtils {
         conversionEvent.setConversionType(eventReadableMap.getInt("conversionType"));
         conversionEvent.setOrderId(eventReadableMap.getString("orderId"));
 
-        try{
-            conversionEvent.setOrderAmount(Double.parseDouble(eventReadableMap.getString("orderTotal")));
-            conversionEvent.setOrderQuantity(Integer.parseInt(eventReadableMap.getString("orderQuantity")));
-        }catch(NumberFormatException e){
-            PIOLogger.v("RN cEFRM "+e);
+        try {
+            conversionEvent.setOrderAmount(eventReadableMap.getDouble("orderTotal"));
+            conversionEvent.setOrderQuantity(eventReadableMap.getInt("orderQuantity"));
+        } catch (NumberFormatException e) {
+            PIOLogger.v("RN cEFRM " + e);
         }
 
-        if(eventReadableMap.hasKey("customProperties")){
+        if (eventReadableMap.hasKey("customProperties")) {
             ReadableMap customPropertiesReadableMap = eventReadableMap.getMap("customProperties");
 
-            if(customPropertiesReadableMap != null){
+            if (customPropertiesReadableMap != null) {
                 conversionEvent.setProperties(convertMap(customPropertiesReadableMap.toHashMap()));
             }
         }

@@ -1,6 +1,6 @@
 # Contributing
 
-We welcome your contributions! There are multiple ways to contribute. To get started, you will need to sign the [Oracle Contributor Agreement](https://www.oracle.com/technetwork/community/oca-486395.html) (OCA).
+We welcome your contributions! There are multiple ways to contribute. To get started, you will need to sign the [Oracle Contributor Agreement](https://oca.opensource.oracle.com/) (OCA).
 
 
 ## Issues

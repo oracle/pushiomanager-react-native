@@ -10,6 +10,8 @@ This module makes it easy to integrate your React Native based mobile app with t
   * [For Android](#for-android-1)
   * [For iOS](#for-ios-1)
 - [Installation](#installation)
+  * [For Android](#for-android-3)
+  * [For iOS](#for-ios-3)
 - [Integration](#integration)
   * [For Android](#for-android-2)
   * [For iOS](#for-ios-2)
@@ -21,6 +23,8 @@ This module makes it easy to integrate your React Native based mobile app with t
   * [Message Center](#message-center)
   * [Geofences And Beacons](#geofences-and-beacons)
   * [Notification Preferences](#notification-preferences)
+- [Upgrades](#upgrades)
+  * [6.50.1 to 6.51] (#upgrade_6.51)
 - [Support](#support)
 - [License](#license)
 
@@ -50,7 +54,8 @@ Before installing the plugin, you must setup your app to receive push notificati
 - [Generate Auth Key](https://docs.oracle.com/en/cloud/saas/marketing/responsys-develop-mobile/ios/auth-key/) 
 - Log in to the [Responsys Mobile App Developer Console](https://docs.oracle.com/en/cloud/saas/marketing/responsys-develop-mobile/dev-console/login/) and enter your Auth Key and other details for your iOS app.
 - Download the `pushio_config.json` file generated from your credentials.
-- After adding the plugin in your app, copy `PushIOManager.framework` and place it in the plugin `node_modules/react-native-pushiomanager/PushIOManager/` folder. 
+- ***Important:*** Copy  `PushIOManager.framework` and place it in the plugin `YOUR_APP_DIR/ios/framework/` folder **before adding plugin to project**. 
+
 
 ## Installation
 
@@ -61,42 +66,38 @@ cd <your_react_native_app>
 yarn add @oracle/react-native-pushiomanager
 ```
 
-### For iOS
-- After installing plugin you need to link `PushIOManager` dependency to your project `Podfile`.  Please follow below steps:
+### For Android
+- Create a new directory  - `PushIOManager` inside your app's `android` directory.
+- Download the SDK native binary from [here](https://www.oracle.com/downloads/applications/cx/responsys-mobile-sdk.html) and place the .aar file in this `android/PushIOManager/` directory.
+- Inside the `android/PushIOManager` directory, create a file `build.gradle` with the following code:
 
-    - Open your React Native App Project `Podfile.` Add  the below line
+	```gradle
+	configurations.maybeCreate("default")
+	artifacts.add("default", file('PushIOManager-6.51.aar')
+	```		
+
+- Add the following to your project-wide `settings.gradle` file:
+
+	```gradle
+	include ':PushIOManager'
+	project(':PushIOManager').projectDir = new File(rootProject.projectDir, './PushIOManager')
+	```
+
+
+
+### For iOS
+After installing plugin you need to install cocoapods,
+
+- Go to `ios` directory of you app, `cd YOUR_APP_DIR/ios/`
+- Run `pod install`
     
-     `pod 'PushIOManager', :path => '<PATH_TO_node_modules/react-native-pushiomanager/PushIOManager/_Directory>'` after `use_native_modules!`. 
-     
-     Eg:
     
-    ```
-    use_native_modules!
-    pod 'PushIOManager', :path => '../node_modules/react-native-pushiomanager/PushIOManager/'
-    
-    ```
-    - Run `pod install`
+***Note:*** This step will fail if `PushIOManager.framework` is not available in `YOUR_APP_DIR/ios/framework/` folder **before adding plugin to project with `npm` or `yarn`**. Copy the `PushIOManager.framework` to `YOUR_APP_DIR/ios/framework/` and perform `Installation` step again.
 
 
 ## Integration
 
 ### For Android
-
-- Download the SDK native binary from [here](https://www.oracle.com/downloads/applications/cx/responsys-mobile-sdk.html) and place the SDK .aar in your `/android` folder inside of a new directory `/android/PushIOManager`
-
-- In that new directory create a file `build.gradle` with the following code (where X is the version of the SDK file you placed):
-
-```gradle
-configurations.maybeCreate("default")
-artifacts.add("default", file('PushIOManager-X.XX.X.aar'))
-```
-
-- Add the following to your project wide settings.gradle:
-
-```gradle
-include ':PushIOManager'
-project(':PushIOManager').projectDir = new File(rootProject.projectDir, './PushIOManager')
-```
 
 - Open the `build.gradle` file located in `android/app/` and add the following dependency,
 	```
@@ -321,7 +322,7 @@ IAM can also be displayed on-demand using custom triggers.
 	```javascript
 	PushIOManager.trackEvent("custom_event_name", properties);
 	```
-#### iOS
+#### For iOS
 
 These below steps are required for iOS In-App Messages.
 
@@ -387,6 +388,32 @@ Preferences are used to record user-choices for push notifications. The preferen
 Do not use this as a persistent (key/value) store since this data is purgeable.
 
 
+## Upgrades
+
+### 6.50.1 to 6.51
+
+With the release of v6.51.0, we have simplified the plugin integration process. 
+
+Due to this change, you will need to perform the following steps one-time only.
+
+### For Android
+
+- Remove the existing `PushIOManager-6.50.1.aar` file from `app/src/main/libs` directory.
+- Follow the setup instructions given in the [Installation](#for-android-3) section above. 
+
+
+### For iOS
+- Find and remove the following line from the `YOUR_APP_DIR/ios/Podfile`,
+
+	```
+	pod 'PushIOManager', :path => '<PATH_TO_node_modules/@oracle/react-native-pushiomanager/PushIOManager/_Directory>'`
+	```
+
+- Create a `framework` directory inside `YOUR_APP_DIR/ios/` directory.
+- Copy the latest PushIOManager.framework inside `YOUR_APP_DIR/ios/framework/`
+- Install the latest plugin `yarn add @oracle/react-native-pushiomanager`
+
+
 ## Support
 
 If you have access to My Oracle Support, please raise a request [here](http://support.oracle.com/), otherwise open an issue in this repository. 
@@ -394,6 +421,6 @@ If you have access to My Oracle Support, please raise a request [here](http://su
 
 ## License
 
-Copyright (c) 2020 Oracle and/or its affiliates and released under the Universal Permissive License (UPL), Version 1.0.
+Copyright (c) 2022 Oracle and/or its affiliates and released under the Universal Permissive License (UPL), Version 1.0.
 
 Oracle and Java are registered trademarks of Oracle and/or its affiliates. Other names may be trademarks of their respective owners.

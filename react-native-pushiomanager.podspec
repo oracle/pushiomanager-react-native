@@ -1,7 +1,5 @@
 require "json"
-
 package = JSON.parse(File.read(File.join(__dir__, "package.json")))
-
 Pod::Spec.new do |s|
   s.name         = "react-native-pushiomanager"
   s.version      = package["version"]
@@ -12,11 +10,12 @@ Pod::Spec.new do |s|
   s.authors      = { "Responsys" => "support@oracle.com" }
   s.platforms    = { :ios => "10.0" }
   s.source       = { :git => "https://github.com/oracle/pushiomanager-react-native.git", :tag => "#{s.version}" }
-
   s.source_files = "ios/**/*.{h,m,swift}"
   s.requires_arc = true
-
+  s.vendored_frameworks = "framework/PushIOManager.framework"
+  s.preserve_paths = "framework/PushIOManager.framework" 
+  s.libraries      = 'sqlite3'
+  s.frameworks              = 'UserNotifications', 'CoreLocation', 'Foundation', 'UIKit'
+  s.ios.frameworks          = 'WebKit'
   s.dependency "React"
-  s.dependency "PushIOManager"
 end
-

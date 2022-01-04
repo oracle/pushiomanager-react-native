@@ -1,5 +1,5 @@
 /*
-* Copyright © 2020, Oracle and/or its affiliates. All rights reserved.
+* Copyright © 2022, Oracle and/or its affiliates. All rights reserved.
 *
 * Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl.
 */
@@ -39,6 +39,7 @@ import com.pushio.manager.tasks.PushIOEngagementListener;
 import com.pushio.manager.tasks.PushIOListener;
 import com.pushio.manager.PIODeepLinkListener;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.text.TextUtils;
@@ -46,6 +47,8 @@ import android.util.Log;
 
 import java.util.List;
 import java.util.Map;
+
+import android.graphics.Color;
 
 public class RCTPushIOManager extends ReactContextBaseJavaModule {
     private static final String LOG_TAG = "pushio-rn";
@@ -397,12 +400,12 @@ public class RCTPushIOManager extends ReactContextBaseJavaModule {
         mPushIOManager.setExecuteRsysWebUrl(executeRsysWebUrl, new PIORsysIAMHyperlinkListener() {
             @Override
             public void onSuccess(String requestUrl, String deeplinkUrl, String weblinkUrl) {
-                
+
                 WritableMap map = new WritableNativeMap();
                 map.putString("requestUrl", requestUrl);
                 map.putString("deeplinkUrl", deeplinkUrl);
                 map.putString("weblinkUrl", weblinkUrl);
-                
+
                 emitEvent("PIORsysWebURLResolvedNotification", map);
             }
 
@@ -411,7 +414,7 @@ public class RCTPushIOManager extends ReactContextBaseJavaModule {
                 WritableMap map = new WritableNativeMap();
                 map.putString("requestUrl", requestUrl);
                 map.putString("error", errorReason);
-                    
+
                 emitEvent("PIORsysWebURLResolvedNotification", map);
             }
         });
@@ -842,12 +845,12 @@ public class RCTPushIOManager extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void setDelayRichPushDisplay(boolean flag){
+    public void setDelayRichPushDisplay(boolean flag) {
         mPushIOManager.delayRichPushDisplay(flag);
     }
 
     @ReactMethod
-    public void isRichPushDelaySet(final Callback callback){
+    public void isRichPushDelaySet(final Callback callback) {
         if (callback != null) {
             callback.invoke(null, mPushIOManager.isRichPushDelaySet());
         } else {
@@ -856,15 +859,15 @@ public class RCTPushIOManager extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void showRichPushMessage(){
+    public void showRichPushMessage() {
         mPushIOManager.showRichPushMessage();
     }
 
     @ReactMethod
-    public void trackConversionEvent(ReadableMap eventReadableMap, final Callback callback){
+    public void trackConversionEvent(ReadableMap eventReadableMap, final Callback callback) {
         PIOConversionEvent conversionEvent = RCTPIOCommonUtils.conversionEventFromReadableMap(eventReadableMap);
 
-        if(conversionEvent == null){
+        if (conversionEvent == null) {
             callback.invoke("Invalid Event", null);
             return;
         }
@@ -882,11 +885,58 @@ public class RCTPushIOManager extends ReactContextBaseJavaModule {
         });
     }
 
-    private void emitEvent(String eventName, WritableMap map){
-        try{
-            getReactApplicationContext().getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class).emit(eventName, map);
-        }catch(Exception e){
-            PIOLogger.v("RN eE "+e);
+    private void emitEvent(String eventName, WritableMap map) {
+        try {
+            getReactApplicationContext().getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                    .emit(eventName, map);
+        } catch (Exception e) {
+            PIOLogger.v("RN eE " + e);
         }
     }
+
+    @ReactMethod
+    public void setNotificationSmallIconColor(String colorHex) {
+        if (!TextUtils.isEmpty(colorHex)) {
+            final int color = Color.parseColor(colorHex);
+            mPushIOManager.setNotificationSmallIconColor(color);
+        }
+
+    }
+
+    @ReactMethod
+    public void setNotificationSmallIcon(String resourceName) {
+        if (!TextUtils.isEmpty(resourceName)) {
+            Context applicationContext = getReactApplicationContext().getApplicationContext();
+            int resourceId = applicationContext.getResources().getIdentifier(
+                    resourceName, "drawable", applicationContext.getPackageName());
+
+            if (resourceId <= 0) {
+                resourceId = applicationContext.getResources().getIdentifier(
+                        resourceName, "mipmap", applicationContext.getPackageName());
+            }
+
+            if (resourceId > 0) {
+                setDefaultSmallIcon(resourceId);
+            }
+        }
+    }
+
+    @ReactMethod
+    public void setNotificationLargeIcon(String resourceName) {
+        if (!TextUtils.isEmpty(resourceName)) {
+            Context applicationContext = getReactApplicationContext().getApplicationContext();
+            int resourceId = applicationContext.getResources().getIdentifier(
+                    resourceName, "drawable", applicationContext.getPackageName());
+
+            if (resourceId <= 0) {
+                resourceId = applicationContext.getResources().getIdentifier(
+                        resourceName, "mipmap", applicationContext.getPackageName());
+            }
+
+            if (resourceId > 0) {
+                setDefaultLargeIcon(resourceId);
+            }
+        }
+    }
+
 }

@@ -42,7 +42,8 @@ buck-out/
 *.keystore
 ios/PushIOManager.framework/
 yarn.lock
+android/.classpath/
+android/.project/
+android/.settings/
 android/.classpath
 android/.project
-android/.settings/org.eclipse.buildship.core.prefs
-android/.settings/org.eclipse.jdt.core.prefs

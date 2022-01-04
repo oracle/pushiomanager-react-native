@@ -9,7 +9,7 @@ Pod::Spec.new do |s|
    	s.source                  = { :git => "https://github.com/pushio/PushIOManager_iOS", :tag => s.version.to_s }
 
    	s.module_name             = "PushIOManager"
-   	s.ios.deployment_target   = "10.0"
+   	s.ios.deployment_target   = "11.0"
    	s.requires_arc            =  true
 
    	s.vendored_frameworks 	  = "PushIOManager.framework"

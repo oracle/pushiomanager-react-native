@@ -73,7 +73,7 @@ yarn add @oracle/react-native-pushiomanager
 
 	```gradle
 	configurations.maybeCreate("default")
-	artifacts.add("default", file('PushIOManager-6.51.aar')
+	artifacts.add("default", file('PushIOManager-6.51.aar'))
 	```		
 
 - Add the following to your project-wide `settings.gradle` file:

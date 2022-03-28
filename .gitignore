@@ -45,5 +45,3 @@ yarn.lock
 android/.classpath/
 android/.project/
 android/.settings/
-android/.classpath
-android/.project

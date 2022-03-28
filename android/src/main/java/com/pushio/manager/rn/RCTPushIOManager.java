@@ -26,6 +26,7 @@ import com.pushio.manager.PIOMCMessage;
 import com.pushio.manager.PIOMCMessageError;
 import com.pushio.manager.PIOMCMessageListener;
 import com.pushio.manager.PIOMCRichContentListener;
+import com.pushio.manager.PIOMessageCenterUpdateListener;
 import com.pushio.manager.PIORegionCompletionListener;
 import com.pushio.manager.PIORegionEventType;
 import com.pushio.manager.PIORegionException;
@@ -894,6 +895,15 @@ public class RCTPushIOManager extends ReactContextBaseJavaModule {
         }
     }
 
+    private void emitEvent(String eventName, WritableArray array) {
+        try {
+            getReactApplicationContext().getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                    .emit(eventName, array);
+        } catch (Exception e) {
+            PIOLogger.v("RN eE " + e);
+        }
+    }
+
     @ReactMethod
     public void setNotificationSmallIconColor(String colorHex) {
         if (!TextUtils.isEmpty(colorHex)) {
@@ -901,6 +911,24 @@ public class RCTPushIOManager extends ReactContextBaseJavaModule {
             mPushIOManager.setNotificationSmallIconColor(color);
         }
 
+    }
+
+    @ReactMethod
+    public void setInAppMessageBannerHeight(int heightDP, final Callback callback) {
+        final boolean isBannerHeightSet = mPushIOManager.setInAppMessageBannerHeight(heightDP);
+
+        if (callback != null) {
+            callback.invoke(null, isBannerHeightSet);
+        }
+    }
+
+    @ReactMethod
+    public void getInAppMessageBannerHeight(final Callback callback) {
+        final int bannerHeight = mPushIOManager.getInAppMessageBannerHeight();
+
+        if (callback != null) {
+            callback.invoke(null, bannerHeight);
+        }
     }
 
     @ReactMethod
@@ -939,4 +967,34 @@ public class RCTPushIOManager extends ReactContextBaseJavaModule {
         }
     }
 
+    @ReactMethod
+    public void setStatusBarHiddenForIAMBannerInterstitial(boolean hideStatusBar) {
+        mPushIOManager.setStatusBarHiddenForIAMBannerInterstitial(hideStatusBar);
+    }
+
+    @ReactMethod
+    public void isStatusBarHiddenForIAMBannerInterstitial(final Callback callback) {
+        final boolean isStatusBarHidden = mPushIOManager.isStatusBarHiddenForIAMBannerInterstitial();
+
+        if (callback != null) {
+            callback.invoke(null, isStatusBarHidden);
+        }
+    }
+
+    @ReactMethod
+    public void addMessageCenterUpdateListener(boolean executeRsysWebUrl) {
+
+        mPushIOManager.addMessageCenterUpdateListener(new PIOMessageCenterUpdateListener() {
+            @Override
+            public void onUpdate(List<String> messageCenters) {
+                WritableArray writableMessageCenters = new WritableNativeArray();
+
+                for (String messageCenter : messageCenters) {
+                    writableMessageCenters.pushString(messageCenter);
+                }
+
+                emitEvent("PIOMessageCenterUpdateNotification", writableMessageCenters);
+            }
+        });
+    }
 }

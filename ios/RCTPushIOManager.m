@@ -396,5 +396,23 @@ RCT_EXPORT_METHOD(isDelayRegistration:(RCTResponseSenderBlock)callback) {
     return true;
 }
 
+RCT_EXPORT_METHOD(setInAppMessageBannerHeight:(CGFloat )height completionHandler:(RCTResponseSenderBlock)callback) {
+    BOOL hasBannerHeightSet = [[PushIOManager sharedInstance] setInAppMessageBannerHeight:height];
+    if(callback != nil){
+        callback(@[[NSNull null], @(hasBannerHeightSet)]);
+    }
+}
+
+RCT_EXPORT_METHOD(getInAppMessageBannerHeight:(RCTResponseSenderBlock)callback) {
+    callback(@[[NSNull null], @([[PushIOManager sharedInstance] getInAppMessageBannerHeight])]);
+}
+
+RCT_EXPORT_METHOD(setStatusBarHiddenForIAMBannerInterstitial:(BOOL)hideStatusBar){
+    [[PushIOManager sharedInstance] setStatusBarHiddenForIAMBannerInterstitial:hideStatusBar];
+}
+
+RCT_EXPORT_METHOD(isStatusBarHiddenForIAMBannerInterstitial:(RCTResponseSenderBlock)callback) {
+    callback(@[[NSNull null], @([[PushIOManager sharedInstance] isStatusBarHiddenForIAMBannerInterstitial])]);
+}
 @end
 

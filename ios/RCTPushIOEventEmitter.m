@@ -19,6 +19,7 @@ RCT_EXPORT_MODULE();
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resolvedURL:) name:PIORsysWebURLResolvedNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleOpenURL:) name:@"PIOHandleOpenURL" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(registerForAllRemoteNotifications) name:@"registerForAllRemoteNotificationTypes" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleMessageCenterUpdate:) name:PIOMessageCenterUpdateNotification object:nil];
 
 }
 
@@ -42,6 +43,7 @@ RCT_EXPORT_MODULE();
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"registerForAllRemoteNotificationTypes" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:PIORsysWebURLResolvedNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"PIOHandleOpenURL" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:PIOMessageCenterUpdateNotification object:nil];
 
     hasListeners = NO;
 }
@@ -59,8 +61,17 @@ RCT_EXPORT_MODULE();
 }
 
 - (NSArray<NSString *> *)supportedEvents {
-  return @[PIORsysWebURLResolvedNotification, @"PIOHandleOpenURL", @"registerForAllRemoteNotificationTypes"];
+  return @[PIORsysWebURLResolvedNotification, @"PIOHandleOpenURL", @"registerForAllRemoteNotificationTypes",PIOMessageCenterUpdateNotification];
 }
+
+- (void)handleMessageCenterUpdate:(NSNotification *)notification {
+    if (hasListeners) {
+        NSArray *messageCenters =  (NSArray *)[notification object];
+        NSString *messageCenter = [messageCenters componentsJoinedByString:@","];
+        [self sendEventWithName:PIOMessageCenterUpdateNotification body:messageCenter];
+    }
+}
+
 
 
 @end

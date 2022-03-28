@@ -1132,6 +1132,30 @@ export default class PushIOManager {
         }
     }
 
+    static setInAppMessageBannerHeight(height, callback) {
+        if (typeof height != 'number') {
+            console.log("Banner height should be a Number type");
+            return;
+        }
+        RCTPushIOManager.setInAppMessageBannerHeight(height, callback);
+    }
+
+    static getInAppMessageBannerHeight(callback) {
+        RCTPushIOManager.getInAppMessageBannerHeight(callback);
+    }
+
+    static setStatusBarHiddenForIAMBannerInterstitial(hideStatusBar) {
+        RCTPushIOManager.setStatusBarHiddenForIAMBannerInterstitial(hideStatusBar)
+    }
+
+    static isStatusBarHiddenForIAMBannerInterstitial(callback) {
+        RCTPushIOManager.isStatusBarHiddenForIAMBannerInterstitial(callback);
+    }
+
+    static addMessageCenterUpdateListener(callback) {
+        RCTPushIOEventEmitter.addListener('PIOMessageCenterUpdateNotification', callback);
+    }
+
     static setNotificationSmallIcon(resourceName) {
         if (Platform.OS === 'android') {
             RCTPushIOManager.setNotificationSmallIcon(resourceName);

@@ -26,7 +26,8 @@ This module makes it easy to integrate your React Native based mobile app with t
   * [Changing Notification Icon and Color (Android Only)](#changing-notification-icon-and-color-android-only)
   * [Handling Push Notifications (Android Only)](#handling-push-notifications-android-only)
 - [Upgrades](#upgrades)
-  * [6.50.1 to 6.51] (#upgrade_6.51)
+  * [6.52.1](#6521)
+  * [6.50.1 to 6.51](#6501-to-651)
 - [Support](#support)
 - [License](#license)
 

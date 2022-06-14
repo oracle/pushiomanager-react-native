@@ -7,6 +7,7 @@
 package com.pushio.manager.rn;
 
 import com.facebook.react.bridge.Callback;
+import com.facebook.react.bridge.LifecycleEventListener;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
@@ -51,18 +52,35 @@ import java.util.Map;
 
 import android.graphics.Color;
 
-public class RCTPushIOManager extends ReactContextBaseJavaModule {
+public class RCTPushIOManager extends ReactContextBaseJavaModule implements LifecycleEventListener {
     private static final String LOG_TAG = "pushio-rn";
     private final PushIOManager mPushIOManager;
 
     public RCTPushIOManager(ReactApplicationContext reactContext) {
         super(reactContext);
         mPushIOManager = com.pushio.manager.PushIOManager.getInstance(reactContext.getApplicationContext());
+        reactContext.addLifecycleEventListener(this);
     }
 
     @Override
     public String getName() {
         return "PushIOManager";
+    }
+
+    @Override
+    public void onHostResume() {
+        PIOLogger.v("RN App Resumed");
+    }
+
+    @Override
+    public void onHostPause() {
+        PIOLogger.v("RN App Paused");
+    }
+
+    @Override
+    public void onHostDestroy() {
+        PIOLogger.v("RN App Destroyed");
+        RCTPIODeviceEventEmitter.INSTANCE.removeAllListeners();
     }
 
     @ReactMethod
@@ -996,5 +1014,10 @@ public class RCTPushIOManager extends ReactContextBaseJavaModule {
                 emitEvent("PIOMessageCenterUpdateNotification", writableMessageCenters);
             }
         });
+    }
+
+    @ReactMethod
+    public void addNativeEventListener(String eventName) {
+        RCTPIODeviceEventEmitter.INSTANCE.addListener(eventName);
     }
 }

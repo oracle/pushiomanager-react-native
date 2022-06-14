@@ -1171,4 +1171,22 @@ export default class PushIOManager {
             console.log("API not supported");
         }
     }
+
+    static onPushTokenReceived(callback) {
+        if (Platform.OS === 'android') {
+            RCTPushIOManager.addNativeEventListener('pio_new_token');
+            RCTPushIOEventEmitter.addListener('pio_new_token', callback);
+        } else {
+            console.log("API not supported");
+        }
+    }
+
+    static onPushNotificationReceived(callback) {
+        if (Platform.OS === 'android') {
+            RCTPushIOManager.addNativeEventListener('pio_new_push_message');
+            RCTPushIOEventEmitter.addListener('pio_new_push_message', callback);
+        } else {
+            console.log("API not supported");
+        }
+    }
 }

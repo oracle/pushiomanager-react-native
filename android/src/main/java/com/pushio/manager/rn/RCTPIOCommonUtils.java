@@ -40,9 +40,13 @@ class RCTPIOCommonUtils {
 
     private static final String FB_KEY_COLLAPSE_KEY = "collapseKey";
     private static final String FB_KEY_DATA = "data";
+    private static final String FB_KEY_FROM = "from";
     private static final String FB_KEY_MESSAGE_ID = "messageId";
     private static final String FB_KEY_MESSAGE_TYPE = "messageType";
     private static final String FB_KEY_TTL = "ttl";
+    private static final String FB_KEY_PRIORITY = "priority";
+    private static final String FB_KEY_SENT_TIME = "sentTime";
+    private static final String FB_KEY_TO = "to";
     private static final String DATE_FORMAT_ISO8601 = "yyyy-MM-dd'T'HH:mm:ssZZZZZ";
 
     static Map<String, String> convertMap(@NonNull Map<String, Object> map) {
@@ -263,6 +267,57 @@ class RCTPIOCommonUtils {
         }
 
         return conversionEvent;
+    }
+
+    static WritableMap writableMapFromString(String key, String value) {
+        WritableMap writableMap = new WritableNativeMap();
+        writableMap.putString(key, value);
+        return writableMap;
+    }
+
+    static WritableMap writableMapFromRemoteMessage(RemoteMessage remoteMessage) {
+        WritableMap writableMap = new WritableNativeMap();
+        writableMap.putInt(FB_KEY_TTL, remoteMessage.getTtl());
+        writableMap.putInt(FB_KEY_PRIORITY, remoteMessage.getPriority());
+        writableMap.putDouble(FB_KEY_SENT_TIME, remoteMessage.getSentTime());
+
+        final String messageId = remoteMessage.getMessageId();
+        if (!TextUtils.isEmpty(messageId)) {
+            writableMap.putString(FB_KEY_MESSAGE_ID, messageId);
+        }
+
+        final String collapseKey = remoteMessage.getCollapseKey();
+        if (!TextUtils.isEmpty(collapseKey)) {
+            writableMap.putString(FB_KEY_COLLAPSE_KEY, collapseKey);
+        }
+
+        final String from = remoteMessage.getFrom();
+        if (!TextUtils.isEmpty(from)) {
+            writableMap.putString(FB_KEY_FROM, from);
+        }
+
+        final String messageType = remoteMessage.getMessageType();
+        if (!TextUtils.isEmpty(messageType)) {
+            writableMap.putString(FB_KEY_MESSAGE_TYPE, messageType);
+        }
+
+        final String to = remoteMessage.getTo();
+        if (!TextUtils.isEmpty(to)) {
+            writableMap.putString(FB_KEY_TO, to);
+        }
+
+        Map<String, String> data = remoteMessage.getData();
+        if (data != null && !data.isEmpty()) {
+            WritableMap dataMap = new WritableNativeMap();
+
+            for (Map.Entry<String, String> entry : data.entrySet()) {
+                dataMap.putString(entry.getKey(), entry.getValue());
+            }
+
+            writableMap.putMap("data", dataMap);
+        }
+
+        return writableMap;
     }
 
     private static String getDateAsString(Date date) {

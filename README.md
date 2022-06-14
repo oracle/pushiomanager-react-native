@@ -23,6 +23,8 @@ This module makes it easy to integrate your React Native based mobile app with t
   * [Message Center](#message-center)
   * [Geofences And Beacons](#geofences-and-beacons)
   * [Notification Preferences](#notification-preferences)
+  * [Changing Notification Icon and Color (Android Only)](#changing-notification-icon-and-color-android-only)
+  * [Handling Push Notifications (Android Only)](#handling-push-notifications-android-only)
 - [Upgrades](#upgrades)
   * [6.50.1 to 6.51] (#upgrade_6.51)
 - [Support](#support)
@@ -38,7 +40,7 @@ This module makes it easy to integrate your React Native based mobile app with t
 - Android SDK Tools >= 28.0.3
 
 ### For iOS
-- iOS 11 or later
+- iOS 12 or later
 
 ## Setup
 
@@ -73,7 +75,7 @@ yarn add @oracle/react-native-pushiomanager
 
 	```gradle
 	configurations.maybeCreate("default")
-	artifacts.add("default", file('PushIOManager-6.52.aar'))
+	artifacts.add("default", file('PushIOManager-6.52.1.aar'))
 	```		
 
 - Add the following to your project-wide `settings.gradle` file:
@@ -101,6 +103,7 @@ After installing plugin you need to install cocoapods,
 
 - Open the `build.gradle` file located in `android/app/` and add the following dependency,
 	```
+	implementation 'androidx.core:core:1.6.0'
 	implementation 'com.google.firebase:firebase-messaging:17.3.0' 
 	```
 
@@ -407,9 +410,54 @@ It is also possible to change the notification small icon color by using the fol
 PushIOManager.setNotificationSmallIconColor("#d1350f");
 ```
 
+### Handling Push Notifications (Android Only)
+
+With release 6.52.1, you can now subscribe to FCM device tokens and push notifications callbacks from the Responsys plugin.
+
+```javascript
+PushIOManager.onPushTokenReceived( response => {
+	console.log("Device Token: " + response.deviceToken);
+});
+
+PushIOManager.onPushNotificationReceived( remoteMessage => {
+
+	console.log("Push Message: " + JSON.stringify(remoteMessage));
+	
+	PushIOManager.isResponsysPush(remoteMessage, (error, response) => {
+
+		if (response) {
+			console.log("Received Push Message from Responsys");
+	      	PushIOManager.handleMessage(remoteMessage);
+	    } else {
+	    	 // Not a Responsys Push, handle it appropriately
+	    }
+	});
+});
+```
+
+This will allow you to handle push notifications while the app is in foreground or background.
+
+These callbacks are also useful if you have multiple push plugins and need to decide how to process the incoming push notifications.
+
+**NOTE**: When the app is in killed state (i.e. not in memory) the Responsys plugin will automatically process and display the push notifications.
 
 
 ## Upgrades
+
+### 6.52.1
+
+#### For Android
+
+If you have been following our [Multiple SDK](https://docs.oracle.com/en/cloud/saas/marketing/responsys-develop-mobile/react/react-multiple-sdk.htm) guide, there are some changes with this release.
+
+We no longer need the `@react-native-firebase/app` and `@react-native-firebase/messaging` plugins for multiple push plugin scenarios or to receive push in the background.
+
+So, you may choose to uninstall these plugins.
+
+```javascript
+yarn remove @react-native-firebase/app
+yarn remove @react-native-firebase/messaging
+```
 
 ### 6.50.1 to 6.51
 
@@ -417,13 +465,14 @@ With the release of v6.51.0, we have simplified the plugin integration process.
 
 Due to this change, you will need to perform the following steps one-time only.
 
-### For Android
+#### For Android
 
 - Remove the existing `PushIOManager-6.50.1.aar` file from `app/src/main/libs` directory.
 - Follow the setup instructions given in the [Installation](#for-android-3) section above. 
 
 
-### For iOS
+#### For iOS
+
 - Find and remove the following line from the `YOUR_APP_DIR/ios/Podfile`,
 
 	```

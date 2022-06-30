@@ -182,6 +182,20 @@ After installing plugin you need to install cocoapods,
 - Select the root project and Under Capabilites add the "Push Notifications" and "Background Modes". 
 ![Capability Image](./img/ios_add_capability.png "Capabilty Image")
 
+- Add below Import statements in  `AppDelegate.h`. 
+
+```
+#import <PushIOManager/PushIOManager.h>
+#import <UserNotifications/UserNotifications.h>
+
+```
+- AppDelegate needs to Conform UNUserNotificationCenterDelegate protocol in `AppDelegate.h` ,
+
+```
+@interface AppDelegate : UIResponder <UIApplicationDelegate,UNUserNotificationCenterDelegate>
+
+```
+
 - Implement the below delegate methods in `AppDelegate.m`. 
 
 ```

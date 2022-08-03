@@ -25,6 +25,7 @@ This module makes it easy to integrate your React Native based mobile app with t
   * [Notification Preferences](#notification-preferences)
   * [Changing Notification Icon and Color (Android Only)](#changing-notification-icon-and-color-android-only)
   * [Handling Push Notifications (Android Only)](#handling-push-notifications-android-only)
+  * [Handling Deeplinks](#handling-deeplinks)
 - [Upgrades](#upgrades)
   * [6.52.1](#6521)
   * [6.50.1 to 6.51](#6501-to-651)
@@ -455,6 +456,123 @@ This will allow you to handle push notifications while the app is in foreground 
 These callbacks are also useful if you have multiple push plugins and need to decide how to process the incoming push notifications.
 
 **NOTE**: When the app is in killed state (i.e. not in memory) the Responsys plugin will automatically process and display the push notifications.
+
+
+### Handling Deeplinks
+
+When the user taps on a push notification (having a deeplink), the plugin passes the deeplink to the app.
+
+Your app must implement the following native code to handle deeplinks.
+
+#### For iOS
+
+Ensure that you have implemented `openURL` method in your `AppDelegate.m`, as follows,
+
+```objective-c
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
+
+	[[PushIOManager sharedInstance] openURL:url options:options];
+	
+  return YES;
+}
+```
+
+#### For Android
+
+- In `AndroidManifest.xml`, change the `launchMode` of `MainActivity` to `singleTask` and add the following Intent-filter,
+
+	```xml
+	<activity
+	  android:name=".MainActivity"
+	  android:launchMode="singleTask">
+	  
+	  <intent-filter>
+        <action android:name="${applicationId}.intent.action.PROCESS_RSYS_DEEPLINK" />
+        <category android:name="android.intent.category.DEFAULT" />
+        <data android:scheme="YOUR_CUSTOM_URL_SCHEME" />
+      </intent-filter>
+	 
+	</activity>
+	```
+
+- Add the following code to your `MainActivity`,
+
+	```java
+	import com.facebook.react.ReactInstanceManager;
+	import com.facebook.react.bridge.ReactContext;
+	import com.facebook.react.modules.core.DeviceEventManagerModule;
+	import android.content.Intent;
+	import android.net.Uri;
+	
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState){
+		super.onCreate(savedInstanceState);
+		handleIntent(getIntent());
+	}
+	
+	@Override
+	public void onNewIntent(Intent intent) {
+		super.onNewIntent(intent);
+		handleIntent(intent);
+	}
+	
+	private void handleIntent(Intent intent){
+	    if(intent != null && intent.getData() != null) {
+	      final Uri deepLinkURL = intent.getData();
+	      
+	      ReactInstanceManager reactInstanceManager = getReactNativeHost().getReactInstanceManager();
+	      
+	      ReactContext reactContext = reactInstanceManager.getCurrentReactContext();
+	      
+	      if(reactContext != null) {
+	        reactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class).emit("PIOHandleOpenURL", deepLinkURL.toString()); 
+	      } else {
+	        reactInstanceManager.addReactInstanceEventListener(new ReactInstanceManager.ReactInstanceEventListener() {
+	          @Override
+	          public void onReactContextInitialized(ReactContext context) {
+	            	context.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class).emit("PIOHandleOpenURL", deepLinkURL.toString());
+	            	reactInstanceManager.removeReactInstanceEventListener(this);
+	          }
+	        });
+	      }
+	    }
+  }
+	```
+	
+
+In your Javascript code, add the following deeplink listeners,
+
+If your app uses React Class components, use lifecycle methods `componentDidMount` and `componentWillUnmount` to store and clean up the listener.
+
+
+```javascript
+componentDidMount() {
+	this.deepLinkListener = PushIOManager.setOpenURLListener(true, deeplink =>
+		console.log("Deeplink: " + deeplink);
+	);
+}
+
+componentWillUnmount() {
+	if (this.deepLinkListener) {
+		this.deepLinkListener.remove();
+	}
+}
+```
+
+If your app uses Functional components, update the `useEffect` hook to store listener
+
+```javascript
+useEffect(() => {
+ 	const deepLinkListener = PushIOManager.setOpenURLListener(true, deeplink =>{
+		console.log("Deeplink: " + deeplink);
+	});
+
+	return () => {
+		deepLinkListener.remove()
+	};
+});
+```
 
 
 ## Upgrades

@@ -1,6 +1,6 @@
 #!/bin/sh
 
-find_ios_root_path=$(find ./ -type d -name ios ! -path "*/node_modules/*" ! -path "*/.git/*" | head -n 1)
+find_ios_root_path=$(find ../../../ -type d -name ios ! -path "*/node_modules/*" ! -path "*/.git/*" | head -n 1)
 
 default_reactnative_root_path="../../../ios"
 
@@ -16,6 +16,6 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
     elif [[ "$find_ios_root_path" ]]; then
         generate_command_by_path $find_ios_root_path
     else
-        generate_command_by_path $default_path
+        generate_command_by_path $default_reactnative_root_path
     fi
 fi

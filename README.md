@@ -371,6 +371,36 @@ These below steps are required for iOS In-App Messages.
 	
 	Remember to store these messages, since the SDK cache is purgeable.
 	
+- Add the following messageCenter listeners to get notified when messages are available.
+
+	If your app uses React Class components, use lifecycle methods `componentDidMount` and `componentWillUnmount` to store and clean up the listener.
+	
+```
+componentDidMount() {
+       this.messageCenterListener = PushIOManager.addMessageCenterUpdateListener((response) =>
+        console.log(response);
+  	  );
+}
+
+componentWillUnmount() {
+	if (this.messageCenterListener) {
+		this.messageCenterListener.remove();
+	}
+}
+```
+If your app uses Functional components, update the `useEffect` hook to store the listener
+
+```
+useEffect(() => {
+ 	const messageCenterListener = PushIOManager.addMessageCenterUpdateListener((response) =>
+        console.log(response);
+  	  );
+
+	return () => {
+		messageCenterListener.remove()
+   }; };
+```
+	
 
 ### Geofences And Beacons
 
@@ -572,6 +602,58 @@ useEffect(() => {
 		deepLinkListener.remove()
 	};
 });
+```
+
+If your app uses Functional components, update the `react-natigation` hook to store listener
+
+```
+const [isReady, setIsReady] = useState(false);
+
+const config =  {
+   initialRouteName: "Home",
+   screens: {
+     Home: {
+       path: "home",
+     }
+   }
+  };
+  
+const linking = {
+    prefixes: ["example://"],
+    config: config.
+}
+
+let deeplinkurl
+
+const onReceivePushIOURL = (deeplink) => {
+
+  if (Platform.OS === "ios") {
+    deeplinkurl =  deeplink.url;
+  } else {
+    deeplinkurl =  deeplink;
+  }
+
+  console.log("onReceivePushIOURL deeplink: " + deeplinkurl);
+  
+
+  if (deeplinkurl && navigationRef.isReady) {
+      Linking.openURL(deeplinkurl);
+    }
+
+};
+
+ useEffect(() => {
+    const deepLinkListener = PushIOManager.setOpenURLListener(true, onReceivePushIOURL);
+   return () => {
+     deepLinkListener.remove();
+   };
+
+ },[]);
+ 
+ return (
+  <NavigationContainer ref={navigationRef}  onReady={onNavigationReady} linking={linking}
+  )
+
 ```
 
 

@@ -719,6 +719,6 @@ If you have access to My Oracle Support, please raise a request [here](http://su
 
 ## License
 
-Copyright (c) 2022 Oracle and/or its affiliates and released under the Universal Permissive License (UPL), Version 1.0.
+Copyright (c) 2023 Oracle and/or its affiliates and released under the Universal Permissive License (UPL), Version 1.0.
 
 Oracle and Java are registered trademarks of Oracle and/or its affiliates. Other names may be trademarks of their respective owners.

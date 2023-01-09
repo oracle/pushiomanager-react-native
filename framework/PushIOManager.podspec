@@ -1,5 +1,5 @@
 Pod::Spec.new do |s|
-	s.version                 = "6.51.0"
+	s.version                 = "6.53.0"
    	s.name                    = "PushIOManager"
    	s.summary                 = "Responsys iOS SDK"
    	s.documentation_url       = ""

@@ -24,6 +24,7 @@
     dictionary[@"richMessageURL"] = message.richMessageURL;
     dictionary[@"sentTimestamp"] = [self dateToString:message.sentTimestamp];
     dictionary[@"expiryTimestamp"] = [self dateToString:message.expiryTimestamp];
+    dictionary[@"customKeyValuePairs"] = message.customKeyValuePairs;
 
     [messages addObject:dictionary];
   }

@@ -354,9 +354,21 @@ These below steps are required for iOS In-App Messages.
 ### Message Center
 
 - Get the Message Center messages list using,
+```
+Each Message Center message now supports an additional property called custom key-value pairs, it is a variable sized object with key value pairs and can be accessed like any other property of that message.
+
+```
 
 	```javascript
 	PushIOManager.fetchMessagesForMessageCenter(messageCenterName, (error, response) => {
+        if(error == null) {
+            for(message of response.messages){
+                console.log(message.messageID)
+                console.log(message.message)
+                console.log(message.customKeyValuePairs)
+            
+            }
+        }
 	
 	});
 	```

@@ -26,6 +26,7 @@ This module makes it easy to integrate your React Native based mobile app with t
   * [Changing Notification Icon and Color (Android Only)](#changing-notification-icon-and-color-android-only)
   * [Handling Push Notifications (Android Only)](#handling-push-notifications-android-only)
   * [Handling Deeplinks](#handling-deeplinks)
+  * [Reporting Revenue/Purchase Events](#reporting-revenuepurchase-events)
 - [Upgrades](#upgrades)
   * [6.52.1](#6521)
   * [6.50.1 to 6.51](#6501-to-651)
@@ -667,6 +668,24 @@ const onReceivePushIOURL = (deeplink) => {
   <NavigationContainer ref={navigationRef}  onReady={onNavigationReady} linking={linking}
   )
 
+```
+
+
+### Reporting Revenue/Purchase Events
+
+Responsys plugin version 6.48.0 and above supports reporting Revenue/Purchase events. These events attribute purchases to the push campaign that led the app user into the mobile app. This API accepts an event object which allows In-App Purchase (Digital Goods) or Retail Purchase (Physical Goods) conversion-type to be reported.
+
+```javascript
+var event = {};
+event['orderId'] = '1234';
+event['orderTotal'] = 50;
+event['orderQuantity'] = 5;
+event['conversionType'] = 3; // Possible values: 3 = In-App Purchase, 7 = Retail Purchase
+event['customProperties'] = {}; // optional
+
+PushIOManager.trackConversionEvent(event, (error, response) => {
+
+});
 ```
 
 

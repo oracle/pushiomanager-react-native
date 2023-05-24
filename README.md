@@ -24,7 +24,7 @@ This module makes it easy to integrate your React Native based mobile app with t
   * [Geofences And Beacons](#geofences-and-beacons)
   * [Notification Preferences](#notification-preferences)
   * [Changing Notification Icon and Color (Android Only)](#changing-notification-icon-and-color-android-only)
-  * [Handling Push Notifications (Android Only)](#handling-push-notifications-android-only)
+  * [Handling Push Notifications (Android Only)](https://github.com/oracle/pushiomanager-react-native/wiki/Android:-Handling-Push-Notifications-In-App-Background-or-Killed-State)
   * [Handling Deeplinks](#handling-deeplinks)
   * [Reporting Revenue/Purchase Events](#reporting-revenuepurchase-events)
 - [Upgrades](#upgrades)
@@ -469,38 +469,6 @@ It is also possible to change the notification small icon color by using the fol
 ```javascript
 PushIOManager.setNotificationSmallIconColor("#d1350f");
 ```
-
-### Handling Push Notifications (Android Only)
-
-With release 6.52.1, you can now subscribe to FCM device tokens and push notifications callbacks from the Responsys plugin.
-
-```javascript
-PushIOManager.onPushTokenReceived( response => {
-	console.log("Device Token: " + response.deviceToken);
-});
-
-PushIOManager.onPushNotificationReceived( remoteMessage => {
-
-	console.log("Push Message: " + JSON.stringify(remoteMessage));
-	
-	PushIOManager.isResponsysPush(remoteMessage, (error, response) => {
-
-		if (response) {
-			console.log("Received Push Message from Responsys");
-	      	PushIOManager.handleMessage(remoteMessage);
-	    } else {
-	    	 // Not a Responsys Push, handle it appropriately
-	    }
-	});
-});
-```
-
-This will allow you to handle push notifications while the app is in foreground or background.
-
-These callbacks are also useful if you have multiple push plugins and need to decide how to process the incoming push notifications.
-
-**NOTE**: When the app is in killed state (i.e. not in memory) the Responsys plugin will automatically process and display the push notifications.
-
 
 ### Handling Deeplinks
 

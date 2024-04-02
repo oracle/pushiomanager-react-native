@@ -12,8 +12,8 @@ Pod::Spec.new do |s|
   s.source       = { :git => "https://github.com/oracle/pushiomanager-react-native.git", :tag => "#{s.version}" }
   s.source_files = "ios/**/*.{h,m,swift}"
   s.requires_arc = true
-  s.vendored_frameworks = "framework/PushIOManager.framework"
-  s.preserve_paths = "framework/PushIOManager.framework" 
+  s.vendored_frameworks = "framework/PushIOManager.xcframework"
+  s.preserve_paths = "framework/PushIOManager.xcframework" 
   s.libraries      = 'sqlite3'
   s.frameworks              = 'UserNotifications', 'CoreLocation', 'Foundation', 'UIKit'
   s.ios.frameworks          = 'WebKit'

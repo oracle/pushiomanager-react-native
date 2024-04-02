@@ -1,5 +1,5 @@
 /*
-* Copyright © 2022, Oracle and/or its affiliates. All rights reserved.
+* Copyright © 2024, Oracle and/or its affiliates. All rights reserved.
 *
 * Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl.
 */
@@ -120,6 +120,29 @@ public class RCTPushIOManager extends ReactContextBaseJavaModule implements Life
             }
         });
         mPushIOManager.registerApp(useLocation);
+    }
+
+    @ReactMethod
+    public void registerApp(boolean enablePushNotifications, boolean useLocation, final Callback callback) {
+        mPushIOManager.registerPushIOListener(new PushIOListener() {
+            @Override
+            public void onPushIOSuccess() {
+                if (callback != null) {
+                    callback.invoke(null, "success");
+                    mPushIOManager.registerPushIOListener(null);
+                }
+            }
+
+            @Override
+            public void onPushIOError(String errorReason) {
+                if (callback != null) {
+                    callback.invoke(errorReason, null);
+                    mPushIOManager.registerPushIOListener(null);
+                }
+            }
+        });
+
+        mPushIOManager.registerApp(enablePushNotifications, useLocation);
     }
 
     @ReactMethod

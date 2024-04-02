@@ -1,6 +1,6 @@
 {
   "name": "@oracle/react-native-pushiomanager",
-  "version": "6.53.0",
+  "version": "6.56.3",
   "description": "React Native Module for Responsys Mobile SDK",
   "main": "index.js",
   "repository": {
@@ -21,10 +21,9 @@
   "author": "Oracle Corp.",
   "contributors": [
     "Neerhaj N Joshi <neerhaj.joshi@oracle.com>",
-    "Sahil Wasan <sahil.wasan@oracle.com>",
     "Poorna Rai <poorna.rai@oracle.com>",
-    "Lalitha R <lalitha.r@oracle.com>",
-    "Savitha Rudramuni <savitha.rudramuni@oracle.com>"
+    "Savitha Rudramuni <savitha.rudramuni@oracle.com>",
+    "Pallavi Krishnaiah Hebbar <pallavi.krishnaiah.hebbar@oracle.com>"
   ],
   "licenseFilename": "LICENSE",
   "readmeFilename": "README.md",

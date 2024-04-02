@@ -59,7 +59,7 @@ Before installing the plugin, you must setup your app to receive push notificati
 - [Generate Auth Key](https://docs.oracle.com/en/cloud/saas/marketing/responsys-develop-mobile/ios/auth-key/) 
 - Log in to the [Responsys Mobile App Developer Console](https://docs.oracle.com/en/cloud/saas/marketing/responsys-develop-mobile/dev-console/login/) and enter your Auth Key and other details for your iOS app.
 - Download the `pushio_config.json` file generated from your credentials.
-- ***Important:*** Copy  `PushIOManager.framework` and place it in `YOUR_APP_DIR/ios/framework/` folder **before adding plugin to project**. 
+- ***Important:*** Copy  `PushIOManager.xcframework` and place it in `YOUR_APP_DIR/ios/framework/` folder **before adding plugin to project**. 
 
 
 ## Installation
@@ -78,7 +78,7 @@ yarn add @oracle/react-native-pushiomanager
 
 	```gradle
 	configurations.maybeCreate("default")
-	artifacts.add("default", file('PushIOManager-6.52.1.aar'))
+	artifacts.add("default", file('PushIOManager-6.56.3.aar'))
 	```		
 
 - Add the following to your project-wide `settings.gradle` file:
@@ -97,7 +97,7 @@ After installing plugin you need to install cocoapods,
 - Run `pod install`
     
     
-***Note:*** This step will fail if `PushIOManager.framework` is not available in `YOUR_APP_DIR/ios/framework/` folder **before adding plugin to project with `npm` or `yarn`**. Copy the `PushIOManager.framework` to `YOUR_APP_DIR/ios/framework/` and perform `Installation` step again.
+***Note:*** This step will fail if `PushIOManager.xcframework` is not available in `YOUR_APP_DIR/ios/framework/` folder **before adding plugin to project with `npm` or `yarn`**. Copy the `PushIOManager.xcframework` to `YOUR_APP_DIR/ios/framework/` and perform `Installation` step again.
 
 
 ## Integration
@@ -282,7 +282,7 @@ import PushIOManager from '@oracle/react-native-pushiomanager';
 	import { Platform } from 'react-native';
 	
 	if (Platform.OS === 'android') {
-		PushIOManager.registerApp(true, (error, response) => {
+		PushIOManager.registerApp(true, true, (error, response) => {
                 
         	});
 	} else {
@@ -356,9 +356,19 @@ These below steps are required for iOS In-App Messages.
 
 - Get the Message Center messages list using,
 
+Each Message Center message now supports an additional property called custom key-value pairs, it is a variable sized object with key value pairs and can be accessed like any other property of that message.
+
+
 	```javascript
 	PushIOManager.fetchMessagesForMessageCenter(messageCenterName, (error, response) => {
-	
+	        if(error == null) {
+	            for(message of response.messages){
+	                console.log(message.messageID)
+	                console.log(message.message)
+	                console.log(message.customKeyValuePairs)
+            
+	            }
+	        }
 	});
 	```
 	
@@ -395,26 +405,12 @@ useEffect(() => {
  	const messageCenterListener = PushIOManager.addMessageCenterUpdateListener((response) =>
         console.log(response);
   	  );
+
 	return () => {
 		messageCenterListener.remove()
    }; };
 ```
-
-Starting with v6.53.0, each Message Center message supports an additional property called custom key-value pairs, it is a variable sized object with key value pairs and can be accessed like any other property of that message.
-
-	```javascript
-	PushIOManager.fetchMessagesForMessageCenter(messageCenterName, (error, response) => {
-        if(error == null) {
-            for(message of response.messages){
-                console.log(message.messageID)
-                console.log(message.message)
-                console.log(message.customKeyValuePairs)
-            
-            }
-        }
 	
-	});
-	```
 
 ### Geofences And Beacons
 
@@ -469,6 +465,38 @@ It is also possible to change the notification small icon color by using the fol
 ```javascript
 PushIOManager.setNotificationSmallIconColor("#d1350f");
 ```
+
+### Handling Push Notifications (Android Only)
+
+With release 6.52.1, you can now subscribe to FCM device tokens and push notifications callbacks from the Responsys plugin.
+
+```javascript
+PushIOManager.onPushTokenReceived( response => {
+	console.log("Device Token: " + response.deviceToken);
+});
+
+PushIOManager.onPushNotificationReceived( remoteMessage => {
+
+	console.log("Push Message: " + JSON.stringify(remoteMessage));
+	
+	PushIOManager.isResponsysPush(remoteMessage, (error, response) => {
+
+		if (response) {
+			console.log("Received Push Message from Responsys");
+	      	PushIOManager.handleMessage(remoteMessage);
+	    } else {
+	    	 // Not a Responsys Push, handle it appropriately
+	    }
+	});
+});
+```
+
+This will allow you to handle push notifications while the app is in foreground or background.
+
+These callbacks are also useful if you have multiple push plugins and need to decide how to process the incoming push notifications.
+
+**NOTE**: When the app is in killed state (i.e. not in memory) the Responsys plugin will automatically process and display the push notifications.
+
 
 ### Handling Deeplinks
 
@@ -659,6 +687,15 @@ PushIOManager.trackConversionEvent(event, (error, response) => {
 
 ## Upgrades
 
+### 6.56.3
+
+#### For Android
+
+With this release, we have made changes to our [Multiple SDK](https://docs.oracle.com/en/cloud/saas/marketing/responsys-develop-mobile/react/react-multiple-sdk.htm) guide after reports of duplicate notifications displayed due to a bug in `@react-native-firebase/messaging` plugin.
+
+Make sure you review the updated guide as you upgrade the app to v6.56.3. 
+
+
 ### 6.52.1
 
 #### For Android
@@ -695,7 +732,7 @@ Due to this change, you will need to perform the following steps one-time only.
 	```
 
 - Create a `framework` directory inside `YOUR_APP_DIR/ios/` directory.
-- Copy the latest PushIOManager.framework inside `YOUR_APP_DIR/ios/framework/`
+- Copy the latest PushIOManager.xcframework inside `YOUR_APP_DIR/ios/framework/`
 - Install the latest plugin `yarn add @oracle/react-native-pushiomanager`
 
 
@@ -713,6 +750,6 @@ Please consult the [security guide](./SECURITY.md) for our responsible security 
 
 ## License
 
-Copyright (c) 2023 Oracle and/or its affiliates and released under the Universal Permissive License (UPL), Version 1.0.
+Copyright (c) 2024 Oracle and/or its affiliates and released under the Universal Permissive License (UPL), Version 1.0.
 
 Oracle and Java are registered trademarks of Oracle and/or its affiliates. Other names may be trademarks of their respective owners.

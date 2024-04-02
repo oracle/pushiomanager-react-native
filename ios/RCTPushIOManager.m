@@ -1,5 +1,5 @@
 /**
-* Copyright © 2022, Oracle and/or its affiliates. All rights reserved.
+* Copyright © 2024, Oracle and/or its affiliates. All rights reserved.
 *
 * Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl.
 */
@@ -14,6 +14,21 @@
 @end
 
 @implementation RCTPushIOManager
+
+- (instancetype)init {
+    
+    self = [super init];
+    
+    if(self) {
+      
+        if([[NSUserDefaults standardUserDefaults] boolForKey:@"PIO_setOpenURLListener"]) {
+            [[PushIOManager sharedInstance] setDeeplinkDelegate:self];
+        }
+        
+    }
+    
+    return  self;
+}
 
 RCT_EXPORT_MODULE()
 +(BOOL)requiresMainQueueSetup {
@@ -373,6 +388,7 @@ RCT_EXPORT_METHOD(setOpenURLListener:(BOOL)isSet) {
     } else {
         [[PushIOManager sharedInstance] setDeeplinkDelegate:nil];
     }
+    [[NSUserDefaults standardUserDefaults] setBool:isSet forKey:@"PIO_setOpenURLListener"];
 }
 
 RCT_EXPORT_METHOD(trackConversionEvent:(NSDictionary *)event
@@ -414,5 +430,17 @@ RCT_EXPORT_METHOD(setStatusBarHiddenForIAMBannerInterstitial:(BOOL)hideStatusBar
 RCT_EXPORT_METHOD(isStatusBarHiddenForIAMBannerInterstitial:(RCTResponseSenderBlock)callback) {
     callback(@[[NSNull null], @([[PushIOManager sharedInstance] isStatusBarHiddenForIAMBannerInterstitial])]);
 }
+
+RCT_EXPORT_METHOD(setInAppCustomCloseButton:(NSDictionary *)closeButton) {
+    NSDictionary *customCloseBluttonInfo = (NSDictionary *)closeButton;
+    if (customCloseBluttonInfo == (id)[NSNull null]) {
+        customCloseBluttonInfo = nil;
+    }
+    UIButton *closeButtonui = [customCloseBluttonInfo customCloseButton];
+    if(closeButtonui != nil){
+      [[PushIOManager sharedInstance] setInAppMessageCloseButton:closeButtonui];
+    }
+}
+
 @end
 

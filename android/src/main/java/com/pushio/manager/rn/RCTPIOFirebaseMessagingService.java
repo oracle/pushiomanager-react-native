@@ -1,32 +1,22 @@
 /*
-* Copyright © 2022, Oracle and/or its affiliates. All rights reserved.
-*
-* Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl.
-*/
+ * Copyright © 2024, Oracle and/or its affiliates. All rights reserved.
+ *
+ * Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl.
+ */
 
 package com.pushio.manager.rn;
 
-import android.app.Application;
-import android.content.Intent;
-import android.util.Log;
+import android.annotation.SuppressLint;
 
 import androidx.annotation.NonNull;
 
-import com.facebook.react.ReactInstanceManager;
-import com.facebook.react.ReactNativeHost;
-import com.facebook.react.bridge.ReactContext;
-import com.facebook.react.bridge.WritableMap;
-import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
-import com.pushio.manager.PIOAppLifecycleManager;
 import com.pushio.manager.PIOLogger;
 import com.pushio.manager.PushIOManager;
 
-import java.lang.reflect.Method;
-
 public class RCTPIOFirebaseMessagingService extends FirebaseMessagingService {
-
+    @SuppressLint("WrongThread")
     @Override
     public void onNewToken(String token) {
         super.onNewToken(token);
@@ -41,6 +31,7 @@ public class RCTPIOFirebaseMessagingService extends FirebaseMessagingService {
         }
     }
 
+    @SuppressLint("WrongThread")
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);

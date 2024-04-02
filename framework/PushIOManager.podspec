@@ -1,5 +1,5 @@
 Pod::Spec.new do |s|
-	s.version                 = "6.53.0"
+	s.version                 = "6.56.3"
    	s.name                    = "PushIOManager"
    	s.summary                 = "Responsys iOS SDK"
    	s.documentation_url       = ""
@@ -12,8 +12,8 @@ Pod::Spec.new do |s|
    	s.ios.deployment_target   = "11.0"
    	s.requires_arc            =  true
 
-   	s.vendored_frameworks 	  = "PushIOManager.framework"
-     	s.preserve_paths 	  = "PushIOManager.framework"
+   	s.vendored_frameworks 	  = "PushIOManager.xcframework"
+     	s.preserve_paths 	  = "PushIOManager.xcframework"
    	
    	s.libraries               = 'sqlite3'
    	s.frameworks              = 'UserNotifications', 'CoreLocation', 'Foundation', 'UIKit'

@@ -28,7 +28,7 @@ mkdir ios/framework
 cp node_modules/@oracle/react-native-pushiomanager/PushIOManager/PushIOManager.podspec  ios/framework/
 ```
 
-Place the [latest iOS `PushIOManager.framework`](https://www.oracle.com/downloads/applications/cx/responsys-mobile-sdk.html) inside `ios/framework`
+Place the [latest iOS `PushIOManager.xcframework`](https://www.oracle.com/downloads/applications/cx/responsys-mobile-sdk.html) inside `ios/framework`
 
 After above these steps your framework directory should look like this.
 

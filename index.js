@@ -1,5 +1,5 @@
 /*
-* Copyright © 2022, Oracle and/or its affiliates. All rights reserved.
+* Copyright © 2024, Oracle and/or its affiliates. All rights reserved.
 *
 * Licensed under the Universal Permissive License v1.0 as shown at https://oss.oracle.com/licenses/upl.
 */
@@ -167,6 +167,27 @@ export default class PushIOManager {
     static registerApp(useLocation, callback) {
         if (Platform.OS === 'android') {
             RCTPushIOManager.registerApp(useLocation, callback);
+        } else {
+            RCTPushIOManager.registerApp(callback);
+        }
+    }
+
+
+    /**
+    * Registers this app installation with Responsys.
+    * 
+    * @param {boolean} enablePushNotification Whether to enable push notifications. Passing `true` will show the default system push notification permission dialog prompt.
+    * (Not available on iOS platform.)
+    * @param {boolean} useLocation Whether to send location data along with the registration request. Passing `true` will show the default system location permission dialog prompt.
+    * (User location is not available on iOS platform.)
+    * @param {callback} callback callback with boolean value TRUE if register event created and stored successfully, FALSE otherwise.
+    * @see {@tutorial Config}
+    */
+
+
+    static registerApp(enablePushNotification, useLocation, callback) {
+        if (Platform.OS === 'android') {
+            RCTPushIOManager.registerApp(enablePushNotification, useLocation, callback);
         } else {
             RCTPushIOManager.registerApp(callback);
         }
@@ -1189,4 +1210,18 @@ export default class PushIOManager {
             console.log("API not supported");
         }
     }
+
+    /**
+     * customise in-app view close button with title, background color, title color and image.
+     *
+     */
+
+    static setInAppCustomCloseButton(closebutton) {
+        if (Platform.OS === 'ios') {
+            RCTPushIOManager.setInAppCustomCloseButton(closebutton)
+        }  else {
+            console.log("API not supported");
+        }
+    }
+
 }

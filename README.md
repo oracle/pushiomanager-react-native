@@ -691,9 +691,13 @@ PushIOManager.trackConversionEvent(event, (error, response) => {
 
 #### For Android
 
-With this release, we have made changes to our [Multiple SDK](https://docs.oracle.com/en/cloud/saas/marketing/responsys-develop-mobile/react/react-multiple-sdk.htm) guide after reports of duplicate notifications displayed due to a bug in `@react-native-firebase/messaging` plugin.
+API for registration has been changed to: registerApp(enablePushNotification, useLocation, callback)
 
-Make sure you review the updated guide as you upgrade the app to v6.56.3. 
+This allows your app to control when to display the push notification permission prompt on Android 13 and later devices.
+
+Also, with this release, we have made changes to our [Multiple SDK](https://docs.oracle.com/en/cloud/saas/marketing/responsys-develop-mobile/react/react-multiple-sdk.htm) guide after reports of duplicate notifications displayed due to a bug in `@react-native-firebase/messaging` plugin.
+
+Make sure you implement the updated guide as you upgrade to plugin v6.56.3. 
 
 
 ### 6.52.1

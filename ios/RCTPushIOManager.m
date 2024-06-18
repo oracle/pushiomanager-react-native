@@ -239,14 +239,6 @@ RCT_EXPORT_METHOD(isSDKConfigured:(RCTResponseSenderBlock)callback) {
   callback(@[[NSNull null], @([[PushIOManager sharedInstance] isSDKConfigured])]);
 }
 
-RCT_EXPORT_METHOD(setCrashLoggingEnabled:(BOOL)enableCrashLogging) {
-  [[PushIOManager sharedInstance] setCrashLoggingEnabled:enableCrashLogging];
-}
-
-RCT_EXPORT_METHOD(isCrashLoggingEnabled:(RCTResponseSenderBlock)callback) {
-  callback(@[[NSNull null], @([[PushIOManager sharedInstance] isCrashLoggingEnabled])]);
-}
-
 
 RCT_EXPORT_METHOD(setInAppMessageFetchEnabled:(BOOL)enableInAppMessageFetch) {
   [[PushIOManager sharedInstance] setInAppMessageFetchEnabled:enableInAppMessageFetch];

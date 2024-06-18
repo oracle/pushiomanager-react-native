@@ -681,7 +681,11 @@ export default class PushIOManager {
      * @param {Boolean} isEnabled boolean value to enable the crash logging.
      */
     static setCrashLoggingEnabled(isEnabled) {
-        RCTPushIOManager.setCrashLoggingEnabled(isEnabled);
+        if (Platform.OS === 'android') {
+            RCTPushIOManager.setCrashLoggingEnabled(isEnabled);
+        } else {
+            console.log("API not supported");
+        }
     }
     /**
      * Check if crash logging is enabled for PushIOManager SDK. We capture only crashes related to sdk.
@@ -689,7 +693,11 @@ export default class PushIOManager {
      */
 
     static isCrashLoggingEnabled(callback) {
-        RCTPushIOManager.isCrashLoggingEnabled(callback);
+        if (Platform.OS === 'android') {
+            RCTPushIOManager.isCrashLoggingEnabled(callback);
+        } else {
+            console.log("API not supported");
+        }
     }
 
     /**

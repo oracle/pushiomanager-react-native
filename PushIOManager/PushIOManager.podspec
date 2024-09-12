@@ -1,19 +1,19 @@
 Pod::Spec.new do |s|
-	s.version                 = "6.56.4"
+	s.version                 = "7.0.0"
    	s.name                    = "PushIOManager"
-   	s.summary                 = "Responsys iOS SDK"
+   	s.summary                 = "CX iOS SDK"
    	s.documentation_url       = ""
-   	s.homepage                = "https://github.com/pushio/PushIOManager_iOS"
+   	s.homepage                = "https://www.oracle.com/downloads/applications/cx/responsys-mobile-sdk.html"
    	s.author                  = "Oracle"
-        s.license                 = ""
-   	s.source                  = { :git => "https://github.com/pushio/PushIOManager_iOS", :tag => s.version.to_s }
+    s.license                 = ""
+   	s.source                  = { :http => "https://www.oracle.com/downloads/applications/cx/responsys-mobile-sdk.html", :tag => s.version.to_s }
 
    	s.module_name             = "PushIOManager"
-   	s.ios.deployment_target   = "10.0"
+   	s.ios.deployment_target   = "12.0"
    	s.requires_arc            =  true
 
-   	s.vendored_frameworks 	  = "PushIOManager.xcframework"
-     	s.preserve_paths 	  = "PushIOManager.xcframework"
+   	s.vendored_frameworks 	  = 'framework/CX_Mobile_SDK.xcframework','framework/OracleCXLocationSDK.xcframework'
+  	s.preserve_paths 	  	  = "framework/CX_Mobile_SDK.xcframework/**/*","framework/OracleCXLocationSDK.xcframework/**/*"
    	
    	s.libraries               = 'sqlite3'
    	s.frameworks              = 'UserNotifications', 'CoreLocation', 'Foundation', 'UIKit'

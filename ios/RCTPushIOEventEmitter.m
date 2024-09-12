@@ -6,7 +6,7 @@
 
 #import "RCTPushIOEventEmitter.h"
 #import <Foundation/Foundation.h>
-#import <PushIOManager/PushIOManagerAll.h>
+#import <CX_Mobile_SDK/PushIOManagerAll.h>
 
 @interface RCTPushIOEventEmitter () {
     BOOL openUrlListenerAdded;
@@ -29,7 +29,14 @@
     return self;
 }
 
+
+
+
 RCT_EXPORT_MODULE();
+
++(BOOL)requiresMainQueueSetup {
+    return NO;
+}
 
 -(void)startObserving {
     hasListeners = YES;

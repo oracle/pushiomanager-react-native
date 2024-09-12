@@ -59,7 +59,8 @@ Before installing the plugin, you must setup your app to receive push notificati
 - [Generate Auth Key](https://docs.oracle.com/en/cloud/saas/marketing/responsys-develop-mobile/ios/auth-key/) 
 - Log in to the [Responsys Mobile App Developer Console](https://docs.oracle.com/en/cloud/saas/marketing/responsys-develop-mobile/dev-console/login/) and enter your Auth Key and other details for your iOS app.
 - Download the `pushio_config.json` file generated from your credentials.
-- ***Important:*** Copy  `PushIOManager.xcframework` and place it in `YOUR_APP_DIR/ios/framework/` folder **before adding plugin to project**. 
+- ***Important:*** Copy  `CX_Mobile_SDK.xcframework` and place it in `YOUR_APP_DIR/ios/framework/` folder **before adding plugin to project**. 
+> **_NOTE:_** Copy OracleCXLocationSDK.xcframework to support Location feature in iOS and add releated Privacy Location descriptiions in Info.plist, refer this for more info [Location Descriptions](https://developer.apple.com/documentation/corelocation/requesting-authorization-to-use-location-services#Provide-descriptions-of-how-you-use-location-services)
 
 
 ## Installation
@@ -97,7 +98,7 @@ After installing plugin you need to install cocoapods,
 - Run `pod install`
     
     
-***Note:*** This step will fail if `PushIOManager.xcframework` is not available in `YOUR_APP_DIR/ios/framework/` folder **before adding plugin to project with `npm` or `yarn`**. Copy the `PushIOManager.xcframework` to `YOUR_APP_DIR/ios/framework/` and perform `Installation` step again.
+***Note:*** This step will fail if `CX_Mobile_SDK.xcframework` is not available in `YOUR_APP_DIR/ios/framework/` folder **before adding plugin to project with `npm` or `yarn`**. Copy the `CX_Mobile_SDK.xcframework` to `YOUR_APP_DIR/ios/framework/` and perform `Installation` step again.Optionally add OracleCXLocationSDK.xcframework to capture location attributes in responsys.
 
 
 ## Integration
@@ -687,6 +688,14 @@ PushIOManager.trackConversionEvent(event, (error, response) => {
 
 ## Upgrades
 
+### 7.0.0
+
+#### For IOS
+
+API for registration has been changed to: registerApp(useLocation, callback)
+
+This allows your app to control when to display the location permission prompt on iOS 12 and later devices.
+
 ### 6.56.3
 
 #### For Android
@@ -736,7 +745,9 @@ Due to this change, you will need to perform the following steps one-time only.
 	```
 
 - Create a `framework` directory inside `YOUR_APP_DIR/ios/` directory.
-- Copy the latest PushIOManager.xcframework inside `YOUR_APP_DIR/ios/framework/`
+- Copy the latest CX_Mobile_SDK.xcframework inside `YOUR_APP_DIR/ios/framework/`
+> **_NOTE:_** Copy `OracleCXLocationSDK.xcframework` to support Location feature in iOS and add releated Privacy Location descriptiions in Info.plist, refer this for more info 
+[Location Descriptions](https://developer.apple.com/documentation/corelocation/requesting-authorization-to-use-location-services#Provide-descriptions-of-how-you-use-location-services)
 - Install the latest plugin `yarn add @oracle/react-native-pushiomanager`
 
 

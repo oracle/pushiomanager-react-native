@@ -8,12 +8,14 @@ Pod::Spec.new do |s|
   s.license      = "UPL-1.0"
   # s.license    = { :type => "UPL-1.0", :file => "FILE_LICENSE" }
   s.authors      = { "Responsys" => "support@oracle.com" }
-  s.platforms    = { :ios => "10.0" }
-  s.source       = { :git => "https://github.com/oracle/pushiomanager-react-native.git", :tag => "#{s.version}" }
+  s.platforms    = { :ios => "12.0" }
+  s.source       = { :path => '.' }
   s.source_files = "ios/**/*.{h,m,swift}"
   s.requires_arc = true
-  s.vendored_frameworks = "framework/PushIOManager.xcframework"
-  s.preserve_paths = "framework/PushIOManager.xcframework" 
+  s.preserve_paths = 'CX_Mobile_SDK.xcframework'
+  s.xcconfig = { 'OTHER_LDFLAGS' => '-framework CX_Mobile_SDK -ObjC' }
+  s.vendored_frameworks = 'framework/CX_Mobile_SDK.xcframework','framework/OracleCXLocationSDK.xcframework'
+  s.preserve_paths 	  = "framework/CX_Mobile_SDK.xcframework/**/*","framework/OracleCXLocationSDK.xcframework/**/*"
   s.libraries      = 'sqlite3'
   s.frameworks              = 'UserNotifications', 'CoreLocation', 'Foundation', 'UIKit'
   s.ios.frameworks          = 'WebKit'

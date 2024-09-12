@@ -6,7 +6,9 @@
 
 
 #import "RCTPushIOManager.h"
-#import <PushIOManager/PushIOManagerAll.h>
+#import <CX_Mobile_SDK/PushIOManagerAll.h>
+#import <CX_Mobile_SDK/ORACoreConfig.h>
+#import <CX_Mobile_SDK/ORACoreConstants.h>
 #import "NSDictionary+PIOConvert.h"
 #import "NSArray+PIOConvert.h"
 
@@ -20,7 +22,12 @@
     self = [super init];
     
     if(self) {
-      
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            ORACoreConfig *config = [[ORACoreConfig alloc] init];
+            [config setConfigValue:@"rsys" forKey:kORAModules];
+        });
+        
         if([[NSUserDefaults standardUserDefaults] boolForKey:@"PIO_setOpenURLListener"]) {
             [[PushIOManager sharedInstance] setDeeplinkDelegate:self];
         }
@@ -65,8 +72,8 @@ RCT_EXPORT_METHOD(registerForNotificationAuthorizations:(int)authOptions categor
     }];
 }
 
-RCT_EXPORT_METHOD(registerApp:(RCTResponseSenderBlock)callback) {
-    [[PushIOManager sharedInstance] registerApp:nil completionHandler:^(NSError *error, NSString *response) {
+RCT_EXPORT_METHOD(registerApp:(BOOL)userLocation completionHandler:(RCTResponseSenderBlock)callback) {
+    [[PushIOManager sharedInstance] registerApp:nil useLocation:userLocation completionHandler:^(NSError *error, NSString *response) {
         callback(@[error.description?: [NSNull null], response ?: @"success"]);
     }];
 }

@@ -6,7 +6,7 @@
 
 
 #import <Foundation/Foundation.h>
-#import <PushIOManager/PushIOManagerAll.h>
+#import <CX_Mobile_SDK/PushIOManagerAll.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

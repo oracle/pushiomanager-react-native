@@ -7,7 +7,7 @@
 
 #import "NSArray+PIOConvert.h"
 #import "NSDictionary+PIOConvert.h"
-#import <PushIOManager/PushIOManagerAll.h>
+#import <CX_Mobile_SDK/PushIOManagerAll.h>
 
 @implementation NSArray (PIOConvert)
 - (NSArray *)messageDictionary {

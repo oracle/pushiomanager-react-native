@@ -36,7 +36,7 @@ This module makes it easy to integrate your React Native based mobile app with t
 
 ## Requirements
 
-- React Native >= 0.61.5
+- React Native >= 0.73.6
 - React Native CLI >= 2.0.1
 
 ### For Android
@@ -60,7 +60,7 @@ Before installing the plugin, you must setup your app to receive push notificati
 - Log in to the [Responsys Mobile App Developer Console](https://docs.oracle.com/en/cloud/saas/marketing/responsys-develop-mobile/dev-console/login/) and enter your Auth Key and other details for your iOS app.
 - Download the `pushio_config.json` file generated from your credentials.
 - ***Important:*** Copy  `CX_Mobile_SDK.xcframework` and place it in `YOUR_APP_DIR/ios/framework/` folder **before adding plugin to project**. 
-> **_NOTE:_** Copy OracleCXLocationSDK.xcframework to support Location feature in iOS and add releated Privacy Location descriptiions in Info.plist, refer this for more info [Location Descriptions](https://developer.apple.com/documentation/corelocation/requesting-authorization-to-use-location-services#Provide-descriptions-of-how-you-use-location-services)
+> **_NOTE:_** Copy OracleCXLocationSDK.xcframework to support Location feature in iOS and add related Privacy Location descriptions in Info.plist, refer this for more info [Location Descriptions](https://developer.apple.com/documentation/corelocation/requesting-authorization-to-use-location-services#Provide-descriptions-of-how-you-use-location-services)
 
 
 ## Installation

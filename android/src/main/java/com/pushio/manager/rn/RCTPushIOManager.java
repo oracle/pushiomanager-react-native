@@ -103,27 +103,7 @@ public class RCTPushIOManager extends ReactContextBaseJavaModule implements Life
     }
 
     @ReactMethod
-    public void registerApp(boolean useLocation, final Callback callback) {
-        mPushIOManager.registerPushIOListener(new PushIOListener() {
-            @Override
-            public void onPushIOSuccess() {
-                if (callback != null) {
-                    callback.invoke(null, "success");
-                }
-            }
-
-            @Override
-            public void onPushIOError(String errorReason) {
-                if (callback != null) {
-                    callback.invoke(errorReason, null);
-                }
-            }
-        });
-        mPushIOManager.registerApp(useLocation);
-    }
-
-    @ReactMethod
-    public void registerApp(boolean enablePushNotifications, boolean useLocation, final Callback callback) {
+    public void registerAppForPush(boolean enablePushNotifications, boolean useLocation, final Callback callback) {
         mPushIOManager.registerPushIOListener(new PushIOListener() {
             @Override
             public void onPushIOSuccess() {

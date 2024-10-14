@@ -165,15 +165,13 @@ export default class PushIOManager {
     * @see {@tutorial Config}
     */
 
-
-    static registerApp(enablePushNotification, useLocation, callback) {
-        if (Platform.OS === 'android') {
-            RCTPushIOManager.registerApp(enablePushNotification, useLocation, callback);
-        } else {
-            RCTPushIOManager.registerApp(callback);
+    static registerAppForPush(enablePushNotification, useLocation, callback){
+        if(Platform.OS === 'android'){
+            RCTPushIOManager.registerAppForPush(enablePushNotification,useLocation,callback);
+        }else{
+            RCTPushIOManager.registerApp(useLocation,callback);
         }
     }
-
 
     /**
      * Registers this app installation with Responsys
@@ -183,7 +181,12 @@ export default class PushIOManager {
      * @see {@tutorial Config}
      */
     static registerApp(useLocation,callback){
-        RCTPushIOManager.registerApp(useLocation,callback);
+        if(Platform.OS === 'android'){
+            console.log("API not supported"); 
+        }else{
+            RCTPushIOManager.registerApp(useLocation,callback);
+        }
+       
     }
 
     /**

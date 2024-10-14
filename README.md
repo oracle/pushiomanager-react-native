@@ -283,7 +283,7 @@ import PushIOManager from '@oracle/react-native-pushiomanager';
 	import { Platform } from 'react-native';
 	
 	if (Platform.OS === 'android') {
-		PushIOManager.registerApp(true, true, (error, response) => {
+		PushIOManager.registerAppForPush(true, true, (error, response) => {
                 
         	});
 	} else {
@@ -695,6 +695,10 @@ PushIOManager.trackConversionEvent(event, (error, response) => {
 API for registration has been changed to: registerApp(useLocation, callback)
 
 This allows your app to control when to display the location permission prompt on iOS 12 and later devices.
+
+#### For Android
+
+API for registration has been changed to: registerAppForPush(enablePushNotification, useLocation, callback)
 
 ### 6.56.3
 

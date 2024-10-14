@@ -182,7 +182,7 @@ export default class PushIOManager {
      */
     static registerApp(useLocation,callback){
         if(Platform.OS === 'android'){
-            console.log("API not supported"); 
+            console.log("This API is no longer supported. Use PushIOManager.registerAppForPush() for Android."); 
         }else{
             RCTPushIOManager.registerApp(useLocation,callback);
         }

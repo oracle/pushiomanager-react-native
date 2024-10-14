@@ -28,7 +28,7 @@ mkdir ios/framework
 cp node_modules/@oracle/react-native-pushiomanager/PushIOManager/PushIOManager.podspec  ios/framework/
 ```
 
-Place the [latest iOS `PushIOManager.xcframework`](https://www.oracle.com/downloads/applications/cx/responsys-mobile-sdk.html) inside `ios/framework`
+Place the [latest iOS `CX_Mobile_SDK.xcframework`](https://www.oracle.com/downloads/applications/cx/responsys-mobile-sdk.html) inside `ios/framework`
 
 After above these steps your framework directory should look like this.
 
@@ -54,7 +54,7 @@ Sample Podfile after adding PushIOManager dependenct look like this.
 require_relative '../node_modules/react-native/scripts/react_native_pods'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
-platform :ios, '11.0'
+platform :ios, '12.0'
 
 target 'testapp' do
   config = use_native_modules!
@@ -272,7 +272,7 @@ import PushIOManager from 'react-native-pushiomanager';
         });
 	} else {
 		PushIOManager.registerForAllRemoteNotificationTypes((error, response) => { //This api will raise iOS push permission alert                 
-        	PushIOManager.registerApp(false, (error, response) => {			
+        	PushIOManager.registerApp(true, (error, response) => {			
 			});  
 		});
 	}
@@ -288,7 +288,7 @@ import PushIOManager from 'react-native-pushiomanager';
           });
 	  } else {
 		  PushIOManager.registerForAllRemoteNotificationTypes((error, response) => { //This api will raise iOS push permission alert                 
-              PushIOManager.registerApp(false, (error, response) => { //Register for iOS. `useLocation` is not supported in iOS.
+              PushIOManager.registerApp(true, (error, response) => { //Register for iOS. `useLocation` is now supported in 7.0.0.
 
 		      });  
 		  });

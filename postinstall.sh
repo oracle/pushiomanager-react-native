@@ -5,8 +5,10 @@ find_ios_root_path=$(find ../../../ -type d -name ios ! -path "*/node_modules/*"
 default_reactnative_root_path="../../../ios"
 
 generate_command_by_path() {
-    rm -rf ./framework/PushIOManager.xcframework && cp -Rf $( echo $1 )/framework/PushIOManager.xcframework ./framework/ || { echo "\n\n\n Error ==> PushIOManager.xcframework not found. Please copy the PushIOManager.xcframework to YOUR_APP_DIR/ios/framework/ and install package again. Follow README.md Installation instructions.<===  \n\n\n;"
+    rm -rf ./framework/CX_Mobile_SDK.xcframework && cp -Rf $( echo $1 )/framework/CX_Mobile_SDK.xcframework ./framework/ || { echo "\n\n\n Error ==> CX_Mobile_SDK.xcframework not found. Please copy the CX_Mobile_SDK.xcframework to YOUR_APP_DIR/ios/framework/ and install package again. Follow README.md Installation instructions.<===  \n\n\n;"
     exit 1; }
+    rm -rf ./framework/OracleCXLocationSDK.xcframework && cp -Rf $( echo $1 )/framework/OracleCXLocationSDK.xcframework ./framework/ || { echo "\n\n\n Info ==> OracleCXLocationSDK.xcframework not found. Please copy the OracleCXLocationSDK.xcframework to YOUR_APP_DIR/ios/framework/ and install package again. Follow README.md Installation instructions.<===  \n\n\n;"
+    exit 0; }
 }
 
 # NOTE: to declare variable by bash need to use export CUSTOM_IOS_PATH_PUSHIOMANAGER = path/to/ios/folder

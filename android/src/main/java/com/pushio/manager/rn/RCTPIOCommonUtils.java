@@ -236,6 +236,18 @@ class RCTPIOCommonUtils {
             writableMap.putString("sentTimestamp", getDateAsString(message.getSentTimestamp()));
             writableMap.putString("expiryTimestamp", getDateAsString(message.getExpiryTimestamp()));
 
+            Map<String,String> data = message.getCustomKeyValue();
+            
+            if (data != null && !data.isEmpty()) {
+                WritableMap dataMap = new WritableNativeMap();
+
+                for (Map.Entry<String, String> entry : data.entrySet()) {
+                    dataMap.putString(entry.getKey(), entry.getValue());
+                }
+
+                writableMap.putMap("customKeyValuePairs", dataMap);
+            }
+
             writableMessages.pushMap(writableMap);
         }
 

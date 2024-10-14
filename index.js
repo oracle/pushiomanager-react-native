@@ -157,25 +157,6 @@ export default class PushIOManager {
     /**
     * Registers this app installation with Responsys.
     * 
-    * @param {boolean} useLocation Whether to send location data along with the registration request. Passing `true` will show the default system location permission dialog prompt.
-    * (User location is not available on iOS platform.)
-    * @param {callback} callback callback with boolean value TRUE if register event created and stored successfully, FALSE otherwise.
-    * @see {@tutorial Config}
-    */
-
-
-    static registerApp(useLocation, callback) {
-        if (Platform.OS === 'android') {
-            RCTPushIOManager.registerApp(useLocation, callback);
-        } else {
-            RCTPushIOManager.registerApp(callback);
-        }
-    }
-
-
-    /**
-    * Registers this app installation with Responsys.
-    * 
     * @param {boolean} enablePushNotification Whether to enable push notifications. Passing `true` will show the default system push notification permission dialog prompt.
     * (Not available on iOS platform.)
     * @param {boolean} useLocation Whether to send location data along with the registration request. Passing `true` will show the default system location permission dialog prompt.
@@ -184,13 +165,28 @@ export default class PushIOManager {
     * @see {@tutorial Config}
     */
 
-
-    static registerApp(enablePushNotification, useLocation, callback) {
-        if (Platform.OS === 'android') {
-            RCTPushIOManager.registerApp(enablePushNotification, useLocation, callback);
-        } else {
-            RCTPushIOManager.registerApp(callback);
+    static registerAppForPush(enablePushNotification, useLocation, callback){
+        if(Platform.OS === 'android'){
+            RCTPushIOManager.registerAppForPush(enablePushNotification,useLocation,callback);
+        }else{
+            RCTPushIOManager.registerApp(useLocation,callback);
         }
+    }
+
+    /**
+     * Registers this app installation with Responsys
+     * 
+     * @param {boolean} useLocation Whether to send location data along with the registration request. Passing `true` will show the default system location permission dialog prompt.
+     * @param {callback} callback callback with boolean value TRUE if register event created and stored successfully, FALSE otherwise.
+     * @see {@tutorial Config}
+     */
+    static registerApp(useLocation,callback){
+        if(Platform.OS === 'android'){
+            console.log("This API is no longer supported. Use PushIOManager.registerAppForPush() for Android."); 
+        }else{
+            RCTPushIOManager.registerApp(useLocation,callback);
+        }
+       
     }
 
     /**
@@ -1231,5 +1227,4 @@ export default class PushIOManager {
             console.log("API not supported");
         }
     }
-
 }

@@ -79,7 +79,10 @@ yarn add @oracle/react-native-pushiomanager
 
 	```gradle
 	configurations.maybeCreate("default")
-	artifacts.add("default", file('PushIOManager-6.56.3.aar'))
+	artifacts.add("default", file('oracle-cx-mobile-base-7.0.1.aar'))
+
+	//Optional
+ 	//artifacts.add("default", file('oracle-cx-mobile-location-7.0.0.aar'))
 	```		
 
 - Add the following to your project-wide `settings.gradle` file:
@@ -108,7 +111,7 @@ After installing plugin you need to install cocoapods,
 - Open the `build.gradle` file located in `android/app/` and add the following dependency,
 	```
 	implementation 'androidx.core:core:1.6.0'
-	implementation 'com.google.firebase:firebase-messaging:17.3.0' 
+	implementation 'com.google.firebase:firebase-messaging:18.0.0' 
 	```
 
 - Open the `AndroidManifest.xml` file located in `android/app/src/main` and add the following,

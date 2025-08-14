@@ -10,5 +10,8 @@
 
 @interface RCTPushIOEventEmitter : RCTEventEmitter <RCTBridgeModule>
 
++ (instancetype)sharedInstance;
+@property (nonatomic, assign)BOOL hasListeners;
+
 @end
 

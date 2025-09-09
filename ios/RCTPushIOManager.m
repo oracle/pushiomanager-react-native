@@ -11,11 +11,19 @@
 #import <CX_Mobile_SDK/ORACoreConstants.h>
 #import "NSDictionary+PIOConvert.h"
 #import "NSArray+PIOConvert.h"
+#import "RCTPushIOEventEmitter.h"
 
 @interface RCTPushIOManager()<PIODeepLinkDelegate>
 @end
 
 @implementation RCTPushIOManager
+
+static RCTPushIOManager *_sharedInstance = nil;
+
++ (instancetype)sharedInstance {
+    return _sharedInstance;
+}
+
 
 - (instancetype)init {
     
@@ -31,7 +39,8 @@
         if([[NSUserDefaults standardUserDefaults] boolForKey:@"PIO_setOpenURLListener"]) {
             [[PushIOManager sharedInstance] setDeeplinkDelegate:self];
         }
-        
+         _pendingEvents = [NSMutableArray array];
+        _sharedInstance = self;      
     }
     
     return  self;
@@ -407,7 +416,16 @@ RCT_EXPORT_METHOD(isDelayRegistration:(RCTResponseSenderBlock)callback) {
 }
 
 - (BOOL)handleOpenURL:(NSURL *)url {
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"PIOHandleOpenURL" object:nil userInfo:@{@"url": [url absoluteString]}];
+    
+    if([RCTPushIOEventEmitter sharedInstance].hasListeners){    
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"PIOHandleOpenURL" object:nil userInfo:@{@"url": [url absoluteString]}];
+    }else{     
+        NSDictionary *event = @{@"name": @"PIOHandleOpenURL",
+                                @"body": @{@"url": [url absoluteString]}};
+        
+        NSLog(@"[RCTPushIOManager] Queued Event : %@",event);    
+        [self.pendingEvents addObject:event];
+    }    
     return true;
 }
 

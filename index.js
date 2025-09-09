@@ -1086,7 +1086,7 @@ export default class PushIOManager {
         if (isSet) {
             return RCTPushIOEventEmitter.addListener('PIOHandleOpenURL', callback);
         } else {
-            return RCTPushIOEventEmitter.removeListener('PIOHandleOpenURL', callback);
+           // return RCTPushIOEventEmitter.removeListener('PIOHandleOpenURL', callback);
         }
     }
 

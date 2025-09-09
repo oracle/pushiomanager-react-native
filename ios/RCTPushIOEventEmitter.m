@@ -7,6 +7,7 @@
 #import "RCTPushIOEventEmitter.h"
 #import <Foundation/Foundation.h>
 #import <CX_Mobile_SDK/PushIOManagerAll.h>
+#import "RCTPushIOManager.h"
 
 @interface RCTPushIOEventEmitter () {
     BOOL openUrlListenerAdded;
@@ -15,16 +16,19 @@
 @end
 
 @implementation RCTPushIOEventEmitter {
-  BOOL hasListeners;
 }
 
+static RCTPushIOEventEmitter *_sharedInstance = nil;
+
++ (instancetype)sharedInstance {
+    return _sharedInstance;
+}
 
 - (instancetype)init {
     
     self = [super init];
     if(self) {
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleOpenURL:) name:@"PIOHandleOpenURL" object:nil];
-        
+         _sharedInstance = self;
     }
     return self;
 }
@@ -39,12 +43,11 @@ RCT_EXPORT_MODULE();
 }
 
 -(void)startObserving {
-    hasListeners = YES;
+    _hasListeners = YES;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resolvedURL:) name:PIORsysWebURLResolvedNotification object:nil];
-  //  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleOpenURL:) name:@"PIOHandleOpenURL" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleOpenURL:) name:@"PIOHandleOpenURL" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(registerForAllRemoteNotifications) name:@"registerForAllRemoteNotificationTypes" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleMessageCenterUpdate:) name:PIOMessageCenterUpdateNotification object:nil];
-
 }
 
 - (void)registerForAllRemoteNotifications {
@@ -53,7 +56,7 @@ RCT_EXPORT_MODULE();
         if ([self bridge] == nil) {
             return;
         }
-        if (self->hasListeners ) {
+        if (self->_hasListeners ) {
               NSMutableDictionary *result = [NSMutableDictionary dictionary];
               result[@"error"] = error.description?: [NSNull null] ;
               result[@"response"] = response?: @"success";
@@ -69,11 +72,11 @@ RCT_EXPORT_MODULE();
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"PIOHandleOpenURL" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:PIOMessageCenterUpdateNotification object:nil];
 
-    hasListeners = NO;
+    _hasListeners = NO;
 }
 
 - (void)resolvedURL:(NSNotification *)notification {
-  if (hasListeners) {
+  if (_hasListeners) {
     [self sendEventWithName:PIORsysWebURLResolvedNotification body:notification.userInfo];
   }
 }
@@ -92,11 +95,23 @@ RCT_EXPORT_MODULE();
 }
 
 - (void)handleMessageCenterUpdate:(NSNotification *)notification {
-    if (hasListeners) {
+    if (_hasListeners) {
         NSArray *messageCenters =  (NSArray *)[notification object];
         NSString *messageCenter = [messageCenters componentsJoinedByString:@","];
         [self sendEventWithName:PIOMessageCenterUpdateNotification body:messageCenter];
     }
+}
+
+-(void)flushStoredEvents {   
+    NSMutableArray<NSDictionary *> *pendingEvents = [[RCTPushIOManager sharedInstance].pendingEvents copy];
+    
+    if(pendingEvents.count == 0){
+        return;
+    }
+    for (NSDictionary *event in pendingEvents) {
+        [self sendEventWithName:event[@"name"] body:event[@"body"]];
+    }  
+    [[RCTPushIOManager sharedInstance].pendingEvents removeAllObjects];
 }
 
 -(void) addListener:(NSString *)eventName {
@@ -105,6 +120,8 @@ RCT_EXPORT_MODULE();
     
     if([eventName isEqualToString:@"PIOHandleOpenURL"]) {
         openUrlListenerAdded = true;
+
+        [self flushStoredEvents];
 
         if(self.deeplinkUserInfo != nil) {
             [self sendEventWithName:@"PIOHandleOpenURL" body:self.deeplinkUserInfo];

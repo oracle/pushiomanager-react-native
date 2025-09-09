@@ -8,5 +8,6 @@
 #import <React/RCTBridgeModule.h>
 
 @interface RCTPushIOManager : NSObject <RCTBridgeModule>
-
++ (instancetype)sharedInstance;
+@property (nonatomic, strong) NSMutableArray<NSDictionary *> *pendingEvents;
 @end

@@ -1,1 +1,47 @@
-sample
+# Local editor and OS files
+.DS_Store
+.vscode/
+.idea/
+*.iml
+
+# npm/yarn artifacts
+npm-debug.log*
+yarn-error.log*
+*.tgz
+
+# Git/repository metadata
+.git/
+.github/
+.gitignore
+.gitattributes
+.npmignore
+
+# Android local state and generated output
+.gradle/
+android/.gradle/
+build/
+android/build/
+local.properties
+android/.classpath
+android/.project
+android/.settings/
+
+# Xcode local state and generated output
+DerivedData/
+xcuserdata/
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+*.xccheckout
+*.moved-aside
+*.hmap
+*.ipa
+*.xcuserstate
+
+# Local sample content
+sample/

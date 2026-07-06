@@ -423,7 +423,6 @@ RCT_EXPORT_METHOD(isDelayRegistration:(RCTResponseSenderBlock)callback) {
         NSDictionary *event = @{@"name": @"PIOHandleOpenURL",
                                 @"body": @{@"url": [url absoluteString]}};
         
-        NSLog(@"[RCTPushIOManager] Queued Event : %@",event);    
         [self.pendingEvents addObject:event];
     }    
     return true;
@@ -460,4 +459,3 @@ RCT_EXPORT_METHOD(setInAppCustomCloseButton:(NSDictionary *)closeButton) {
 }
 
 @end
-

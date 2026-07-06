@@ -45,7 +45,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.text.TextUtils;
-import android.util.Log;
 
 import java.util.List;
 import java.util.Map;
@@ -53,7 +52,6 @@ import java.util.Map;
 import android.graphics.Color;
 
 public class RCTPushIOManager extends ReactContextBaseJavaModule implements LifecycleEventListener {
-    private static final String LOG_TAG = "pushio-rn";
     private final PushIOManager mPushIOManager;
 
     public RCTPushIOManager(ReactApplicationContext reactContext) {
@@ -848,22 +846,31 @@ public class RCTPushIOManager extends ReactContextBaseJavaModule implements Life
 
     @ReactMethod
     public void trackEmailConversion(String uri, final Callback callback) {
-        if (!TextUtils.isEmpty(uri)) {
-            Intent launchIntent = new Intent();
-            launchIntent.setData(Uri.parse(uri));
+        if (TextUtils.isEmpty(uri)) {
+            if (callback != null) callback.invoke("Invalid URI", null);
+            return;
+        }
 
-            mPushIOManager.trackEmailConversion(launchIntent, callback == null ? null : new PIODeepLinkListener() {
+        Intent launchIntent = new Intent();
+        launchIntent.setData(Uri.parse(uri));
+
+        mPushIOManager.trackEmailConversion(
+            launchIntent,
+            callback == null ? null : new PIODeepLinkListener() {
                 @Override
                 public void onDeepLinkReceived(final String deeplinkUrl, final String webLinkUrl) {
-                    Log.v(LOG_TAG, "dl: " + deeplinkUrl + ", wl: " + webLinkUrl);
-
                     WritableMap map = new WritableNativeMap();
                     map.putString("deeplinkUrl", deeplinkUrl);
                     map.putString("webLinkUrl", webLinkUrl);
                     callback.invoke(null, map);
                 }
-            });
-        }
+
+                @Override
+                public void onFailure(String errorReason) {
+                    callback.invoke(errorReason, null);
+                }
+            }
+        );
     }
 
     @ReactMethod

@@ -45,3 +45,8 @@ xcuserdata/
 
 # Local sample content
 sample/
+example/
+
+# Dependency directories
+node_modules/
+**/node_modules/

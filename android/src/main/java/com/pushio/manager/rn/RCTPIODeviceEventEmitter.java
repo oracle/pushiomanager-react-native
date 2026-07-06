@@ -11,8 +11,9 @@ import android.content.Context;
 import android.text.TextUtils;
 import androidx.annotation.MainThread;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collections;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactInstanceManager;
@@ -32,20 +33,18 @@ public enum RCTPIODeviceEventEmitter {
     static final String EVENT_NEW_TOKEN = "pio_new_token";
     static final String EVENT_NEW_PUSH_MESSAGE = "pio_new_push_message";
 
-    private List<String> eventListeners;
+    private Set<String> eventListeners;
 
     RCTPIODeviceEventEmitter() {
         if (eventListeners == null) {
-            eventListeners = new ArrayList<>();
+            eventListeners = Collections.newSetFromMap(new ConcurrentHashMap<String, Boolean>());
         }
     }
 
     void addListener(String eventName) {
         if (!TextUtils.isEmpty(eventName)) {
 
-            if (!eventListeners.contains(eventName)) {
-                eventListeners.add(eventName);
-            } else {
+            if (!eventListeners.add(eventName)) {
                 PIOLogger.v("RN aL " + eventName + " is already registered");
             }
 

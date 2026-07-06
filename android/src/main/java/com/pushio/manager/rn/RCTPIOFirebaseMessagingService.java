@@ -21,8 +21,6 @@ public class RCTPIOFirebaseMessagingService extends FirebaseMessagingService {
     public void onNewToken(String token) {
         super.onNewToken(token);
 
-        PIOLogger.v("RN oNT New Device Token: " + token);
-
         PushIOManager.getInstance(getApplicationContext()).setDeviceToken(token);
 
         if (RCTPIODeviceEventEmitter.INSTANCE.isAppListeningForEvent(RCTPIODeviceEventEmitter.EVENT_NEW_TOKEN)) {

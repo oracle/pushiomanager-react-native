@@ -846,11 +846,17 @@ public class RCTPushIOManager extends ReactContextBaseJavaModule implements Life
 
     @ReactMethod
     public void trackEmailConversion(String uri, final Callback callback) {
-        if (!TextUtils.isEmpty(uri)) {
-            Intent launchIntent = new Intent();
-            launchIntent.setData(Uri.parse(uri));
+        if (TextUtils.isEmpty(uri)) {
+            if (callback != null) callback.invoke("Invalid URI", null);
+            return;
+        }
 
-            mPushIOManager.trackEmailConversion(launchIntent, callback == null ? null : new PIODeepLinkListener() {
+        Intent launchIntent = new Intent();
+        launchIntent.setData(Uri.parse(uri));
+
+        mPushIOManager.trackEmailConversion(
+            launchIntent,
+            callback == null ? null : new PIODeepLinkListener() {
                 @Override
                 public void onDeepLinkReceived(final String deeplinkUrl, final String webLinkUrl) {
                     WritableMap map = new WritableNativeMap();
@@ -858,8 +864,13 @@ public class RCTPushIOManager extends ReactContextBaseJavaModule implements Life
                     map.putString("webLinkUrl", webLinkUrl);
                     callback.invoke(null, map);
                 }
-            });
-        }
+
+                @Override
+                public void onFailure(String errorReason) {
+                    callback.invoke(errorReason, null);
+                }
+            }
+        );
     }
 
     @ReactMethod

@@ -346,7 +346,7 @@ export default class PushIOManager {
 
     static onMessageCenterViewDisplayed() {
         if (Platform.OS === 'android') {
-            RCTPushIOManager.onMessageCenterViewDisplayed();
+            RCTPushIOManager.onMessageCenterViewVisible();
         } else {
             RCTPushIOManager.messageCenterViewWillAppear();
         }
@@ -357,7 +357,7 @@ export default class PushIOManager {
 
     static onMessageCenterViewFinished() {
         if (Platform.OS === 'android') {
-            RCTPushIOManager.onMessageCenterViewFinished();
+            RCTPushIOManager.onMessageCenterViewFinish();
         } else {
             RCTPushIOManager.messageCenterViewWillDisappear();
         }
